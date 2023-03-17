@@ -9,6 +9,7 @@ export const router: Router = Router();
 router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
 
+  // TODO proper check for privacy settings
   if (req.user?.uid !== req.params.uid) {
     res.status(403).send('Forbidden');
     return;

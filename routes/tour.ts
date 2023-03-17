@@ -1,6 +1,6 @@
 
 import { Request, Response, Router } from 'express';
-import { Prisma } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { getPrismaInstance } from '../lib/prisma';
 import { GeostoriesRequest } from '../interfaces/request';
 import { authMiddleware } from '../middleware';
@@ -35,9 +35,9 @@ router.get('/', (req: GeostoriesRequest, res: Response) => {
   });
 });
 
-router.get('/startTour/:tourId', async (req: GeostoriesRequest, res: Response) => {
+router.post('/start/', async (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
-  const tourId = req.params.tourId;
+  const tourId = req.body.tourId;
 
   const newStartedTour: Prisma.StartedTourCreateInput = {
     tour: {
@@ -58,6 +58,27 @@ router.get('/startTour/:tourId', async (req: GeostoriesRequest, res: Response) =
     res.json(startedTour);
   }
   ).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
+
+router.put('/stop/', async (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const startedTourId = req.body.startedTourId;
+  // TODO update where id == startedTourId and user uid is the same as the user who is logged in
+
+  prisma.startedTour.update({
+    where: {
+      id: startedTourId,
+    },
+    data: {
+      isCompleted: true,
+      dateEnded: new Date()
+    }
+  }).then((startedTour) => {
+    res.json(startedTour);
+  }).catch((error) => {
     console.log(error);
     res.status(500).send('Internal server error');
   });
