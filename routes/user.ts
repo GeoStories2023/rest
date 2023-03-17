@@ -6,7 +6,7 @@ import { authMiddleware } from '../middleware';
 
 export const router: Router = Router();
 
-router.get('/:uid', authMiddleware, (req: GeostoriesRequest, res: Response) => {
+router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
 
   prisma.user.findUnique({
@@ -22,7 +22,7 @@ router.get('/:uid', authMiddleware, (req: GeostoriesRequest, res: Response) => {
 });
 
 
-router.put("/setUsername", authMiddleware, (req: GeostoriesRequest, res: Response) => {
+router.put("/setUsername", (req: GeostoriesRequest, res: Response) => {
   const body = req.body;
   const prisma = getPrismaInstance();
 

@@ -8,7 +8,7 @@ import { authMiddleware } from '../middleware';
 export const router: Router = Router();
 
 
-router.get('/:id', authMiddleware, (req: GeostoriesRequest, res: Response) => {
+router.get('/:id', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
   const id = req.params.id;
 
@@ -24,7 +24,7 @@ router.get('/:id', authMiddleware, (req: GeostoriesRequest, res: Response) => {
   });
 });
 
-router.get('/', authMiddleware, (req: GeostoriesRequest, res: Response) => {
+router.get('/', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
 
   prisma.tour.findMany().then((tours) => {
