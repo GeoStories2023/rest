@@ -1,17 +1,18 @@
 import { NextFunction, Request, Response } from "express";
 import getFirebaseAdmin from "./lib/firebase";
 import { getPrismaInstance } from './lib/prisma';
-import { Prisma } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { GeostoriesRequest } from "interfaces/request";
 
-async function createGeostoriesUser(id: string) {
+async function createGeostoriesUser(id: string): Promise<User> {
   const prisma = getPrismaInstance();
+  console.log('Creating new user: ' + id)
 
   const newUser: Prisma.UserCreateInput = {
     uid: id,
   }
 
-  await prisma.user.create({
+  return await prisma.user.create({
     data: newUser
   })
 }
@@ -26,12 +27,18 @@ export function authMiddleware(req: GeostoriesRequest, res: Response, next: Next
 
     getFirebaseAdmin().auth().verifyIdToken(token).then(async (decodedToken) => {
       if (decodedToken.email_verified) {
-        if (await prisma.user.findUnique({ where: { uid: decodedToken.uid } }) === null) {
-          console.log(`No user ${decodedToken.uid} found in database`)
-          await createGeostoriesUser(decodedToken.uid);
+
+        const user = await prisma.user.findUnique({ where: { uid: decodedToken.uid } });
+        if (user) {
+          req.user = user;
+        } else {
+          req.user = await createGeostoriesUser(decodedToken.uid);
         }
-        req.uid = decodedToken.uid;
-        next();
+        if (req.user) {
+          next();
+        } else {
+          res.status(401).send('Unauthorized');
+        }
       } else {
         res.status(401).send('Email not verified');
       }

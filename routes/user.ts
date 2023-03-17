@@ -9,16 +9,21 @@ export const router: Router = Router();
 router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
 
-  prisma.user.findUnique({
-    where: {
-      uid: req.uid
-    }
-  }).then((user) => {
-    res.json(user);
-  }).catch((error) => {
-    console.log(error);
-    res.status(500).send('Internal server error');
-  });
+  if (req.user?.uid !== req.params.uid) {
+    res.status(403).send('Forbidden');
+    return;
+  } else {
+    prisma.user.findUnique({
+      where: {
+        uid: req.params.uid
+      }
+    }).then((user) => {
+      res.json(user);
+    }).catch((error) => {
+      console.log(error);
+      res.status(500).send('Internal server error');
+    });
+  }
 });
 
 
@@ -28,7 +33,7 @@ router.put("/setUsername", (req: GeostoriesRequest, res: Response) => {
 
   prisma.user.update({
     where: {
-      uid: req.uid
+      uid: req.user?.uid
     },
     data: {
       username: body.username,

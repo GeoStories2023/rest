@@ -34,3 +34,31 @@ router.get('/', (req: GeostoriesRequest, res: Response) => {
     res.status(500).send('Internal server error');
   });
 });
+
+router.get('/startTour/:tourId', async (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const tourId = req.params.tourId;
+
+  const newStartedTour: Prisma.StartedTourCreateInput = {
+    tour: {
+      connect: {
+        id: tourId
+      }
+    },
+    user: {
+      connect: {
+        uid: req.user?.uid
+      }
+    }
+  }
+
+  prisma.startedTour.create({
+    data: newStartedTour
+  }).then((startedTour) => {
+    res.json(startedTour);
+  }
+  ).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
