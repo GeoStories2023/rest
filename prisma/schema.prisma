@@ -13,6 +13,7 @@ datasource db {
 model User {
   uid            String         @id
   username       String         @unique @default(cuid())
+  askUsername    Boolean        @default(true)
   profileImage   Image?         @relation(fields: [profileImageId], references: [id])
   profileImageId String?
   isPremium      Boolean        @default(false)

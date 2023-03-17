@@ -1,18 +1,36 @@
 import { NextFunction, Request, Response } from "express";
 import getFirebaseAdmin from "./lib/firebase";
+import { getPrismaInstance } from './lib/prisma';
+import { Prisma } from '@prisma/client';
+import { GeostoriesRequest } from "interfaces/request";
 
+async function createGeostoriesUser(id: string) {
+  const prisma = getPrismaInstance();
 
-export function authMiddleware(req: Request, res: Response, next: NextFunction) {
+  const newUser: Prisma.UserCreateInput = {
+    uid: id,
+  }
+
+  await prisma.user.create({
+    data: newUser
+  })
+}
+
+export function authMiddleware(req: GeostoriesRequest, res: Response, next: NextFunction) {
 
   const authHeader: string | undefined = req.headers?.authorization;
+  const prisma = getPrismaInstance();
 
   if (authHeader) {
     const token = authHeader.split(' ')[1];
 
-    getFirebaseAdmin().auth().verifyIdToken(token).then((decodedToken) => {
+    getFirebaseAdmin().auth().verifyIdToken(token).then(async (decodedToken) => {
       if (decodedToken.email_verified) {
-        console.log('decodedToken', decodedToken);
-
+        if (await prisma.user.findUnique({ where: { uid: decodedToken.uid } }) === null) {
+          console.log(`No user ${decodedToken.uid} found in database`)
+          await createGeostoriesUser(decodedToken.uid);
+        }
+        req.uid = decodedToken.uid;
         next();
       } else {
         res.status(401).send('Email not verified');
