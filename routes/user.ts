@@ -11,6 +11,12 @@ router.get('/', (req: GeostoriesRequest, res: Response) => {
   prisma.user.findUnique({
     where: {
       uid: req.user?.uid
+    },
+    include: {
+      profileImage: true,
+      favoriteTours: true,
+      startedTours: true,
+      coupons: true
     }
   }).then((user) => {
     res.json(user);
@@ -31,6 +37,12 @@ router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
     prisma.user.findUnique({
       where: {
         uid: req.params.uid
+      },
+      include: {
+        profileImage: true,
+        favoriteTours: true,
+        startedTours: true,
+        coupons: true
       }
     }).then((user) => {
       res.json(user);

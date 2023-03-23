@@ -10,7 +10,11 @@ export const router: Router = Router();
 router.get('/', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
 
-  prisma.tour.findMany().then((tours) => {
+  prisma.tour.findMany({
+    include: {
+      image: true
+    }
+  }).then((tours) => {
     res.json(tours);
   }).catch((error) => {
     console.log(error);
@@ -26,7 +30,11 @@ router.get('/:id', (req: GeostoriesRequest, res: Response) => {
   prisma.tour.findUnique({
     where: {
       id: id
+    },
+    include: {
+      image: true
     }
+
   }).then((tour) => {
     res.json(tour);
   }).catch((error) => {
