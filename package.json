@@ -4,7 +4,7 @@
 	"description": "REST-API for GeoStories",
 	"main": "app.js",
 	"scripts": {
-		"start": "ts-node app.ts",
+		"start": "prisma db push && ts-node app.ts",
 		"dev": "npm i && prisma db push && prisma generate && nodemon app.ts",
 		"prisma": "prisma db push && prisma generate"
 	},

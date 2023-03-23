@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import getFirebaseAdmin from "./lib/firebase";
 import { getPrismaInstance } from './lib/prisma';
 import { Prisma, User } from '@prisma/client';
-import { GeostoriesRequest } from "interfaces/request";
+import { GeostoriesRequest } from "interfaces/iRequest";
 
 async function createGeostoriesUser(id: string): Promise<User> {
   const prisma = getPrismaInstance();

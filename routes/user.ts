@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { Prisma } from '@prisma/client';
 import { getPrismaInstance } from '../lib/prisma';
-import { GeostoriesRequest } from '../interfaces/request';
+import { GeostoriesRequest } from '../interfaces/iRequest';
 import { authMiddleware } from '../middleware';
 
 export const router: Router = Router();

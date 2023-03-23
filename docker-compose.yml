@@ -1,0 +1,43 @@
+version: "3.9"
+
+volumes:
+  pgData:
+  pgadminData:
+
+services:
+  rest:
+    container_name: gs_rest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/geostories
+    ports:
+      - "3000:3000"
+
+  postgres:
+    container_name: gs_postgres
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    restart: always
+    volumes:
+      - ./docker_data/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgData:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: gs_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadminData:/var/lib/pgadmin
+      - ./docker_data/pgadmin/servers.json:/pgadmin4/servers.json
