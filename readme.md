@@ -14,5 +14,4 @@
    DATABASE_URL="postgresql://postgres:postgres@localhost:5432/geostories"
    ```
 
-5. Run the docker compose file of the project.
-6. Run `npm run dev`
+5. Run the docker compose file OR run `npm run dev`.
