@@ -4,6 +4,8 @@ import { getPrismaInstance } from '../lib/prisma';
 import { GeostoriesRequest } from '../interfaces/iRequest';
 import { authMiddleware } from '../middleware';
 
+
+
 export const router: Router = Router();
 
 router.get('/', (req: GeostoriesRequest, res: Response) => {
@@ -61,6 +63,12 @@ router.put("/setUsername", (req: GeostoriesRequest, res: Response) => {
   prisma.user.update({
     where: {
       uid: req.user?.uid
+    },
+    include: {
+      profileImage: true,
+      favoriteTours: true,
+      startedTours: true,
+      coupons: true
     },
     data: {
       username: body.username,

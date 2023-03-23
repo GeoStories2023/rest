@@ -15,7 +15,16 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/geostories
     ports:
       - "3000:3000"
-
+  redoc:
+    container_name: gs_redoc
+    image: redocly/redoc
+    restart: always
+    ports:
+      - "8000:80"
+    volumes:
+      - ./docker_data/redoc/swagger.yaml:/usr/share/nginx/html/swagger.yaml
+    environment:
+      - SPEC_URL=swagger.yaml
   postgres:
     container_name: gs_postgres
     image: postgres:latest

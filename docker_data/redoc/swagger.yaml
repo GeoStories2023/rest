@@ -1,0 +1,509 @@
+openapi: 3.0.0
+info:
+  title: Geostories API
+  version: 1.0.0
+  description: API for managing Geostories users
+servers:
+  - url: http://localhost:3000/
+paths:
+  /users:
+    get:
+      summary: Get current user
+      security:
+        - bearerAuth: []
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWithIncludes'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /users/setUsername:
+    put:
+      summary: Set user's username
+      security:
+        - bearerAuth: []
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+              required:
+                - username
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWithIncludes'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  /users/{uid}:
+    get:
+      summary: Get user by uid
+      security:
+        - bearerAuth: []
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          description: User's uid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWithIncludes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+
+  /tours:
+    get:
+      summary: Get all tours
+      security:
+        - bearerAuth: []
+      tags:
+        - Tours
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tour'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  /tours/{id}:
+    get:
+      summary: Get a tour by ID
+      security:
+        - bearerAuth: []
+      tags:
+        - Tours
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the tour to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tour'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  /tours/started/:
+    get:
+      summary: Get all started tours for the authenticated user
+      tags:
+        - Tours
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StartedTour'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  /tours/started/{id}:
+    get:
+      summary: Get started tour by ID
+      security:
+        - bearerAuth: []
+      tags:
+        - Tours
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the started tour to retrieve
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StartedTour'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /tours/start:
+    post:
+      summary: Start a new tour
+      security:
+        - bearerAuth: []
+      tags:
+        - Tours
+      requestBody:
+        description: The tour to start
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tourId:
+                  type: string
+                  description: ID of the tour to start
+              required:
+                - tourId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StartedTour'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  /tours/stop:
+    put:
+      summary: Stop a started tour
+      security:
+        - bearerAuth: []
+      tags:
+        - Tours
+      requestBody:
+        description: The started tour to stop
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                startedTourId:
+                  type: string
+                  description: ID of the started tour to stop
+              required:
+                - startedTourId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StartedTour'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    
+  schemas:
+    User:
+      type: object
+      properties:
+        uid:
+          type: string
+        username:
+          type: string
+        askUsername:
+          type: boolean
+        profileImageId:
+          type: string
+          nullable: true
+        isPremium:
+          type: boolean
+        isAdmin:
+          type: boolean
+        dateCreated:
+          type: string
+          format: date-time
+        dateUpdated:
+          type: string
+          format: date-time
+        xp:
+          type: number
+    Level:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        xp:
+          type: number
+    Company:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        dateCreated:
+          type: string
+          format: date-time
+        dateUpdated:
+          type: string
+          format: date-time
+    Coupon:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        description:
+          type: string
+        dateCreated:
+          type: string
+          format: date-time
+        dateUpdated:
+          type: string
+          format: date-time
+        companyId:
+          type: string
+          nullable: true
+        userId:
+          type: string
+          nullable: true
+    FavoriteTour:
+      type: object
+      properties:
+        id:
+          type: string
+        dateCreated:
+          type: string
+          format: date-time
+        dateUpdated:
+          type: string
+          format: date-time
+        tourId:
+          type: string
+        userId:
+          type: string
+    StartedTour:
+      type: object
+      properties:
+        id:
+          type: string
+        isCompleted:
+          type: boolean
+        dateStarted:
+          type: string
+          format: date-time
+        dateEnded:
+          type: string
+          format: date-time
+          nullable: true
+        tourId:
+          type: string
+        userId:
+          type: string
+    Continent:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Country:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        continentId:
+          type: string
+    City:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        countryId:
+          type: string
+    TourPoint:
+      type: object
+      properties:
+        id:
+          type: string
+        longitude:
+          type: number
+        latitude:
+          type: number
+        description:
+          type: string
+        dateCreated:
+          type: string
+          format: date-time
+        dateUpdated:
+          type: string
+          format: date-time
+        tourId:
+          type: string
+          nullable: true
+
+    Tour:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        imageId:
+          type: string
+          nullable: true
+        dateCreated:
+          type: string
+          format: date-time
+        dateUpdated:
+          type: string
+          format: date-time
+        xp:
+          type: number
+        cityId:
+          type: string
+          nullable: true
+
+    News:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        dateCreated:
+          type: string
+          format: date-time
+        dateUpdated:
+          type: string
+          format: date-time
+        imageId:
+          type: string
+          nullable: true
+
+    Achievement:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        dateCreated:
+          type: string
+          format: date-time
+        dateUpdated:
+          type: string
+          format: date-time
+        imageId:
+          type: string
+          nullable: true
+
+    Image:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+        name:
+          type: string
+        dateCreated:
+          type: string
+          format: date-time
+        dateUpdated:
+          type: string
+          format: date-time
+
+    UserWithIncludes:
+      type: object
+      properties:
+        uid:
+          type: string
+        username:
+          type: string
+        askUsername:
+          type: boolean
+        isPremium:
+          type: boolean
+        isAdmin:
+          type: boolean
+        dateCreated:
+          type: string
+          format: date-time
+        dateUpdated:
+          type: string
+          format: date-time
+        xp:
+          type: number
+        profileImage:
+          $ref: '#/components/schemas/Image'
+        favoriteTours:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tour'
+        startedTours:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tour'
+        coupons:
+          type: array
+          items:
+            type: object
