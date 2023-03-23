@@ -66,20 +66,36 @@ router.post('/start/', async (req: GeostoriesRequest, res: Response) => {
 router.put('/stop/', async (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
   const startedTourId = req.body.startedTourId;
-  // TODO update where id == startedTourId and user uid is the same as the user who is logged in
 
-  prisma.startedTour.update({
+  const startedTour = await prisma.startedTour.findUnique({
     where: {
-      id: startedTourId,
+      id: startedTourId
     },
-    data: {
-      isCompleted: true,
-      dateEnded: new Date()
+    include: {
+      user: true
     }
-  }).then((startedTour) => {
-    res.json(startedTour);
-  }).catch((error) => {
-    console.log(error);
-    res.status(500).send('Internal server error');
   });
+
+  if (startedTour?.user.uid !== req.user?.uid) {
+    res.status(403).send('Forbidden');
+    return;
+  } else {
+    prisma.startedTour.update({
+      where: {
+        id: startedTourId,
+      },
+      include: {
+        user: true,
+      },
+      data: {
+        isCompleted: true,
+        dateEnded: new Date()
+      }
+    }).then((startedTour) => {
+      res.json(startedTour);
+    }).catch((error) => {
+      console.log(error);
+      res.status(500).send('Internal server error');
+    });
+  }
 });

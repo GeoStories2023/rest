@@ -6,6 +6,20 @@ import { authMiddleware } from '../middleware';
 
 export const router: Router = Router();
 
+router.get('/', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  prisma.user.findUnique({
+    where: {
+      uid: req.user?.uid
+    }
+  }).then((user) => {
+    res.json(user);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
+
 router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
 
