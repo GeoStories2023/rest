@@ -1,0 +1,14 @@
+{
+	"Servers": {
+		"1": {
+			"Name": "GeoStories",
+			"Group": "GeoStories",
+			"Host": "postgres",
+			"Port": 5432,
+			"MaintenanceDB": "keycloak",
+			"Username": "postgres",
+			"PassFile": "/pgpass",
+			"SSLMode": "prefer"
+		}
+	}
+}
