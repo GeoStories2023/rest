@@ -8,11 +8,12 @@ export const router: Router = Router();
 
 router.get('/', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
-  const includeContries: boolean = req.query.includeCountries === 'true';
+
+  const includeCountries: boolean = req.query.includeCountries === 'true';
 
   prisma.continent.findMany({
     include: {
-      countries: includeContries,
+      countries: includeCountries,
       image: true
     }
   }).then((continents) => {
@@ -26,14 +27,14 @@ router.get('/', (req: GeostoriesRequest, res: Response) => {
 router.get('/:id', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
   const id = req.params.id;
-  const includeContries: boolean = req.query.includeCountries === 'true';
+  const includeCountries: boolean = req.query.includeCountries === 'true';
 
   prisma.continent.findUnique({
     where: {
       id: id
     },
     include: {
-      countries: includeContries,
+      countries: includeCountries,
       image: true
     }
   }).then((continent) => {
@@ -48,14 +49,14 @@ router.get('/:id', (req: GeostoriesRequest, res: Response) => {
 router.get('/name/:name', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
   const name = req.params.name;
-  const includeContries: boolean = req.query.includeCountries === 'true';
+  const includeCountries: boolean = req.query.includeCountries === 'true';
 
   prisma.continent.findFirst({
     where: {
       name: name
     },
     include: {
-      countries: includeContries,
+      countries: includeCountries,
       image: true
     }
   }).then((continent) => {
