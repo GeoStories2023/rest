@@ -554,7 +554,8 @@ paths:
           description: Internal Server Error
   /level/byXp/{xp}:
     get:
-      summary: Returns the first level found with an XP-number greater than or equal to the parameter
+      summary: Get by XP-number
+      description: Returns the first level found with an XP-number greater than or equal to the parameter
       security:
         - bearerAuth: []
       tags:
