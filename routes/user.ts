@@ -52,7 +52,6 @@ router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
   }
 });
 
-
 router.put("/setUsername", (req: GeostoriesRequest, res: Response) => {
   const body = req.body;
   const prisma = getPrismaInstance();

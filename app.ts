@@ -7,6 +7,9 @@ import { authMiddleware } from './middleware';
 import { router as tourRouter } from './routes/tour';
 import { router as userRouter } from './routes/user';
 import { router as levelRouter } from './routes/level';
+import { router as cityRouter } from './routes/city';
+import { router as countryRouter } from './routes/country';
+import { router as continentRouter } from './routes/continent';
 
 const app = express();
 
@@ -20,6 +23,9 @@ app.use(authMiddleware);
 app.use('/user', userRouter);
 app.use('/tour', tourRouter);
 app.use('/level', levelRouter);
+app.use('/city', cityRouter);
+app.use('/country', countryRouter);
+app.use('/continent', continentRouter);
 
 
 app.get('/', async (req, res) => {
