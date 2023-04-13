@@ -237,6 +237,111 @@ paths:
           description: Forbidden
         "500":
           description: Internal Server Error
+  /tour/path/name/{continentName}/{countryName}/{cityName}/:
+    get:
+      summary: Get tours in of a city
+      security:
+        - bearerAuth: []
+      tags:
+        - Tours
+      parameters:
+        - in: path
+          name: continentName
+          schema:
+            type: string
+          required: true
+          description: Continent name of tour
+        - in: path
+          name: countryName
+          schema:
+            type: string
+          required: true
+          description: country name of tour
+        - in: path
+          name: cityName
+          schema:
+            type: string
+          required: true
+          description: city name of tour
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tour"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+  /tour/path/name/{continentName}/{countryName}/:
+    get:
+      summary: Get tours in of a country
+      security:
+        - bearerAuth: []
+      tags:
+        - Tours
+      parameters:
+        - in: path
+          name: countryName
+          schema:
+            type: string
+          required: true
+          description: country name of tour
+        - in: path
+          name: cityName
+          schema:
+            type: string
+          required: true
+          description: city name of tour
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tour"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+  /tour/path/name/{continentName}/:
+    get:
+      summary: Get tours in of a continent
+      security:
+        - bearerAuth: []
+      tags:
+        - Tours
+      parameters:
+        - in: path
+          name: continentName
+          schema:
+            type: string
+          required: true
+          description: continent name of tour
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tour"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
   /level:
     get:
       summary: Get all levels
