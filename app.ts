@@ -10,6 +10,7 @@ import { router as levelRouter } from './routes/level';
 import { router as cityRouter } from './routes/city';
 import { router as countryRouter } from './routes/country';
 import { router as continentRouter } from './routes/continent';
+import { router as tourPointTypeRouter } from './routes/tourPointType';
 
 const app = express();
 
@@ -26,6 +27,8 @@ app.use('/level', levelRouter);
 app.use('/city', cityRouter);
 app.use('/country', countryRouter);
 app.use('/continent', continentRouter);
+app.use('/tourpointtype', tourPointTypeRouter);
+
 
 
 app.get('/', async (req, res) => {
