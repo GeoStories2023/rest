@@ -114,7 +114,7 @@ paths:
           required: true
           description: ID of the tour to retrieve
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: OK
@@ -575,6 +575,284 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Level"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+  /continent:
+    get:
+      summary: Get all continents
+      security:
+        - bearerAuth: []
+      tags:
+        - Continents
+      parameters:
+        - in: query
+          name: includeCountries
+          schema:
+            type: boolean
+          required: true
+          description: true or false. Should all countries be mapped in the result?
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Continent"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+  /continent/{id}:
+    get:
+      summary: Get a specific continent by its id
+      security:
+        - bearerAuth: []
+      tags:
+        - Continents
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: id of the continent
+        - in: query
+          name: includeCountries
+          schema:
+            type: boolean
+          required: true
+          description: true or false. Should all countries be mapped in the result?
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Continent"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+  /continent/name/{name}:
+    get:
+      summary: Get a specific continent by its name
+      security:
+        - bearerAuth: []
+      tags:
+        - Continents
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+          description: name of the continent
+        - in: query
+          name: includeCountries
+          schema:
+            type: boolean
+          required: true
+          description: true or false. Should all countries be mapped in the result?
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Continent"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+  /country:
+    get:
+      summary: Get all countries
+      security:
+        - bearerAuth: []
+      tags:
+        - Countries
+      parameters:
+        - in: query
+          name: includeCities
+          schema:
+            type: boolean
+          required: true
+          description: true or false. Should all cities be mapped in the result?
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Country"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+  /country/{id}:
+    get:
+      summary: Get a specific country by its id
+      security:
+        - bearerAuth: []
+      tags:
+        - Countries
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: id of the country
+        - in: query
+          name: includeCities
+          schema:
+            type: boolean
+          required: true
+          description: true or false. Should all cities be mapped in the result?
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Country"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+  /country/name/{name}:
+    get:
+      summary: Get a specific country by its name
+      security:
+        - bearerAuth: []
+      tags:
+        - Country
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+          description: name of the country
+        - in: query
+          name: includeCities
+          schema:
+            type: boolean
+          required: true
+          description: true or false. Should all cities be mapped in the result?
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Country"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+  /city:
+    get:
+      summary: Get all cities
+      security:
+        - bearerAuth: []
+      tags:
+        - Cities
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/City"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+  /city/{id}:
+    get:
+      summary: Get a specific city by its id
+      security:
+        - bearerAuth: []
+      tags:
+        - Cities
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: id of the city
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/City"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+  /city/name/{name}:
+    get:
+      summary: Get a specific city by its name
+      security:
+        - bearerAuth: []
+      tags:
+        - Cities
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+          description: name of the city
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/City"
         "401":
           description: Unauthorized
         "403":
