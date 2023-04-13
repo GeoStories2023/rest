@@ -78,6 +78,8 @@ model StartedTour {
 model Continent {
   id        String    @id @default(uuid())
   name      String
+  imageId   String?
+  image     Image?    @relation(fields: [imageId], references: [id])
   countries Country[]
 }
 
@@ -86,6 +88,8 @@ model Country {
   name        String
   continentId String
   continent   Continent @relation(fields: [continentId], references: [id])
+  imageId   String?
+  image     Image?    @relation(fields: [imageId], references: [id])
   cities      City[]
 }
 
@@ -94,6 +98,8 @@ model City {
   name      String
   countryId String
   country   Country @relation(fields: [countryId], references: [id])
+  imageId   String?
+  image     Image?    @relation(fields: [imageId], references: [id])
   tours     Tour[]
 }
 
@@ -153,5 +159,8 @@ model Image {
   tours        Tour[]
   users        User[]
   news         News[]
+  continents   Continent[]
+  countries    Country[]
+  cities       City[]
   achievements Achievement[]
 }
