@@ -2,6 +2,7 @@ import express from 'express';
 import { config } from './config';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import { authMiddleware } from './middleware';
 
 import { router as tourRouter } from './routes/tour';
@@ -14,6 +15,7 @@ import { router as tourPointTypeRouter } from './routes/tourPointType';
 
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(bodyParser.json());
