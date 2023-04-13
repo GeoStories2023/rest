@@ -1032,9 +1032,11 @@ components:
           type: string
         description:
           type: string
-        imageId:
-          type: string
-          nullable: true
+        image:
+          $ref: "#/components/schemas/Image"
+        tourPoints:
+          type: array
+          $ref: "#/components/schemas/TourPoint"
         dateCreated:
           type: string
           format: date-time

@@ -11,7 +11,8 @@ router.get('/', (req: GeostoriesRequest, res: Response) => {
 
   prisma.tour.findMany({
     include: {
-      image: true
+      image: true,
+      tourPoints: true
     }
   }).then((tours) => {
     res.json(tours);
@@ -31,7 +32,8 @@ router.get('/:id', (req: GeostoriesRequest, res: Response) => {
       id: id
     },
     include: {
-      image: true
+      image: true,
+      tourPoints: true
     }
 
   }).then((tour) => {
@@ -169,7 +171,8 @@ router.get('/path/name/:continentName/:countryName?/:cityName?', (req: Geostorie
       }
     },
     include: {
-      image: true
+      image: true,
+      tourPoints: true
     }
   }).then((tours) => {
     res.json(tours);
@@ -199,7 +202,8 @@ router.get('/path/id/:continentId/:countryId?/:cityId?', (req: GeostoriesRequest
       }
     },
     include: {
-      image: true
+      image: true,
+      tourPoints: true
     }
   }).then((tours) => {
     res.json(tours);
