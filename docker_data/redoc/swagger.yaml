@@ -14,15 +14,15 @@ paths:
       tags:
         - Users
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserWithIncludes'
-        '401':
+                $ref: "#/components/schemas/UserWithIncludes"
+        "401":
           description: Unauthorized
-        '500':
+        "500":
           description: Internal Server Error
 
   /users/setUsername:
@@ -43,15 +43,15 @@ paths:
               required:
                 - username
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserWithIncludes'
-        '401':
+                $ref: "#/components/schemas/UserWithIncludes"
+        "401":
           description: Unauthorized
-        '500':
+        "500":
           description: Internal Server Error
   /users/{uid}:
     get:
@@ -68,17 +68,17 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserWithIncludes'
-        '401':
+                $ref: "#/components/schemas/UserWithIncludes"
+        "401":
           description: Unauthorized
-        '403':
+        "403":
           description: Forbidden
-        '500':
+        "500":
           description: Internal Server Error
 
   /tours:
@@ -89,17 +89,17 @@ paths:
       tags:
         - Tours
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Tour'
-        '401':
+                  $ref: "#/components/schemas/Tour"
+        "401":
           description: Unauthorized
-        '500':
+        "500":
           description: Internal Server Error
   /tours/{id}:
     get:
@@ -116,15 +116,15 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tour'
-        '401':
+                $ref: "#/components/schemas/Tour"
+        "401":
           description: Unauthorized
-        '500':
+        "500":
           description: Internal Server Error
   /tours/started/:
     get:
@@ -134,17 +134,17 @@ paths:
       security:
         - bearerAuth: []
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/StartedTour'
-        '401':
+                  $ref: "#/components/schemas/StartedTour"
+        "401":
           description: Unauthorized
-        '500':
+        "500":
           description: Internal Server Error
   /tours/started/{id}:
     get:
@@ -161,17 +161,17 @@ paths:
           required: true
           description: ID of the started tour to retrieve
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StartedTour'
-        '401':
+                $ref: "#/components/schemas/StartedTour"
+        "401":
           description: Unauthorized
-        '403':
+        "403":
           description: Forbidden
-        '500':
+        "500":
           description: Internal Server Error
   /tours/start:
     post:
@@ -194,15 +194,15 @@ paths:
               required:
                 - tourId
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StartedTour'
-        '401':
+                $ref: "#/components/schemas/StartedTour"
+        "401":
           description: Unauthorized
-        '500':
+        "500":
           description: Internal Server Error
   /tours/stop:
     put:
@@ -225,24 +225,158 @@ paths:
               required:
                 - startedTourId
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StartedTour'
-        '401':
+                $ref: "#/components/schemas/StartedTour"
+        "401":
           description: Unauthorized
-        '403':
+        "403":
           description: Forbidden
-        '500':
+        "500":
+          description: Internal Server Error
+  /level:
+    get:
+      summary: Get all levels
+      security:
+        - bearerAuth: []
+      tags:
+        - Levels
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Level"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+    post:
+      summary: Create a new level
+      security:
+        - bearerAuth: []
+      tags:
+        - Levels
+      requestBody:
+        description: The new level
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostLevel"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Level"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+  /level/{id}:
+    get:
+      summary: Get a specific level
+      security:
+        - bearerAuth: []
+      tags:
+        - Levels
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the level
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Level"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+    put:
+      summary: Set update a level
+      security:
+        - bearerAuth: []
+      tags:
+        - Levels
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the level
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PutLevel"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Level"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+  /level/byXp/{xp}:
+    get:
+      summary: Returns the first level found with an XP-number greater than or equal to the parameter
+      security:
+        - bearerAuth: []
+      tags:
+        - Levels
+      parameters:
+        - in: path
+          name: xp
+          schema:
+            type: integer
+          required: true
+          description: xp of the level
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Level"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
           description: Internal Server Error
 components:
   securitySchemes:
-    bearerAuth:            # arbitrary name for the security scheme
+    bearerAuth: # arbitrary name for the security scheme
       type: http
       scheme: bearer
-      bearerFormat: JWT    
+      bearerFormat: JWT
   schemas:
     User:
       type: object
@@ -472,6 +606,7 @@ components:
           type: string
           format: date-time
 
+    #* --- With includes ---
     UserWithIncludes:
       type: object
       properties:
@@ -494,16 +629,40 @@ components:
         xp:
           type: number
         profileImage:
-          $ref: '#/components/schemas/Image'
+          $ref: "#/components/schemas/Image"
         favoriteTours:
           type: array
           items:
-            $ref: '#/components/schemas/Tour'
+            $ref: "#/components/schemas/Tour"
         startedTours:
           type: array
           items:
-            $ref: '#/components/schemas/Tour'
+            $ref: "#/components/schemas/Tour"
         coupons:
           type: array
           items:
             type: object
+    #* --- POST objects ---
+    PostLevel:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        xp:
+          type: number
+      required:
+        - description
+        - xp
+
+    #* --- PUT objects ---
+    PutLevel:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        xp:
+          type: number

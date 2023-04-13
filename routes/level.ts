@@ -47,3 +47,36 @@ router.get('/byXp/:xp', (req: GeostoriesRequest, res: Response) => {
     res.status(500).send('Internal server error');
   });
 });
+
+router.post('/', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const level = req.body;
+  // TODO check if xp is already used
+  prisma.level.create({
+    data: level
+  }).then((level) => {
+    res.json(level);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
+
+router.put('/:id', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const id = req.params.id;
+  const level = req.body;
+  // TODO check if xp is already used
+
+  prisma.level.update({
+    where: {
+      id: id
+    },
+    data: level
+  }).then((level) => {
+    res.json(level);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
