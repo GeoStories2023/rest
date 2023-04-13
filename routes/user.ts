@@ -2,8 +2,6 @@ import { Response, Router } from 'express';
 import { getPrismaInstance } from '../lib/prisma';
 import { GeostoriesRequest } from '../interfaces/iRequest';
 
-
-
 export const router: Router = Router();
 
 router.get('/', (req: GeostoriesRequest, res: Response) => {

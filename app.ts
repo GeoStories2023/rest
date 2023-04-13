@@ -6,6 +6,7 @@ import { authMiddleware } from './middleware';
 
 import { router as tourRouter } from './routes/tour';
 import { router as userRouter } from './routes/user';
+import { router as levelRouter } from './routes/level';
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(authMiddleware);
 // router
 app.use('/user', userRouter);
 app.use('/tour', tourRouter);
+app.use('/level', levelRouter);
 
 
 app.get('/', async (req, res) => {
