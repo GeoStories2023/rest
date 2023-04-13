@@ -699,6 +699,8 @@ components:
           type: string
         name:
           type: string
+        image:
+          $ref: "#/components/schemas/Image"
     Country:
       type: object
       properties:
@@ -708,6 +710,8 @@ components:
           type: string
         continentId:
           type: string
+        image:
+          $ref: "#/components/schemas/Image"
     City:
       type: object
       properties:
@@ -717,6 +721,8 @@ components:
           type: string
         countryId:
           type: string
+        image:
+          $ref: "#/components/schemas/Image"
     TourPoint:
       type: object
       properties:
