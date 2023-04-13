@@ -1,8 +1,6 @@
-import { Request, Response, Router } from 'express';
-import { Prisma } from '@prisma/client';
+import { Response, Router } from 'express';
 import { getPrismaInstance } from '../lib/prisma';
 import { GeostoriesRequest } from '../interfaces/iRequest';
-import { authMiddleware } from '../middleware';
 
 
 
