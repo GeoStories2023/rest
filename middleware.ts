@@ -18,7 +18,6 @@ async function createGeostoriesUser(id: string): Promise<User> {
 }
 
 export function authMiddleware(req: GeostoriesRequest, res: Response, next: NextFunction) {
-
   const authHeader: string | undefined = req.headers?.authorization;
   const prisma = getPrismaInstance();
 

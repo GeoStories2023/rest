@@ -149,3 +149,63 @@ router.put('/stop/', async (req: GeostoriesRequest, res: Response) => {
     });
   }
 });
+
+router.get('/path/name/:continentName/:countryName?/:cityName?', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const continentName: string = req.params.continentName;
+  const countryName: string | undefined = req.params.countryName;
+  const cityName: string | undefined = req.params.cityName;
+
+  prisma.tour.findMany({
+    where: {
+      city: {
+        name: cityName,
+        country: {
+          name: countryName,
+          continent: {
+            name: continentName
+          }
+        }
+      }
+    },
+    include: {
+      image: true
+    }
+  }).then((tours) => {
+    res.json(tours);
+  }
+  ).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
+
+router.get('/path/id/:continentId/:countryId?/:cityId?', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const continentId: string = req.params.continentId;
+  const countryId: string | undefined = req.params.countryId;
+  const cityId: string | undefined = req.params.cityId;
+
+  prisma.tour.findMany({
+    where: {
+      city: {
+        id: cityId,
+        country: {
+          id: countryId,
+          continent: {
+            id: continentId
+          }
+        }
+      }
+    },
+    include: {
+      image: true
+    }
+  }).then((tours) => {
+    res.json(tours);
+  }
+  ).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});

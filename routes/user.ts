@@ -1,6 +1,7 @@
 import { Response, Router } from 'express';
 import { getPrismaInstance } from '../lib/prisma';
 import { GeostoriesRequest } from '../interfaces/iRequest';
+import { Prisma, User } from '@prisma/client';
 
 export const router: Router = Router();
 
@@ -44,7 +45,7 @@ router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
       }
     }).then((user) => {
       res.json(user);
-    }).catch((error) => {
+    }).catch((error: any) => {
       console.log(error);
       res.status(500).send('Internal server error');
     });
@@ -70,9 +71,9 @@ router.put("/setUsername", (req: GeostoriesRequest, res: Response) => {
       username: body.username,
       askUsername: false
     }
-  }).then((user) => {
+  }).then((user: User) => {
     res.json(user);
-  }).catch((error) => {
+  }).catch((error: any) => {
     console.log(error);
     res.status(500).send('Internal server error');
   });
