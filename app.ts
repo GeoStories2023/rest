@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Application } from 'express';
 import { config } from './config';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -15,7 +15,7 @@ import { router as tourPointTypesRouter } from './routes/tourPointTypes';
 
 const app = express();
 
-app.use(cors());
+app.use('*', cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(bodyParser.json());
