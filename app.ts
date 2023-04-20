@@ -37,7 +37,7 @@ app.use('/api/v1/tourpointtypes', tourPointTypesRouter);
 
 
 
-app.get('/api/v1/', async (req, res) => {
+app.get('/', async (req, res) => {
   res.send('Hello World!');
 });
 

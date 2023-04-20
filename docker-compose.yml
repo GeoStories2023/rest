@@ -54,6 +54,8 @@ services:
     container_name: gs_nginx
     image: nginx:latest
     restart: always
+    depends_on:
+      - rest
     ports:
       - "80:80"
       - "443:443"
