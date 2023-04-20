@@ -5,13 +5,13 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { authMiddleware } from './middleware';
 
-import { router as tourRouter } from './routes/tours';
-import { router as userRouter } from './routes/user';
-import { router as levelRouter } from './routes/levels';
-import { router as cityRouter } from './routes/cities';
-import { router as countryRouter } from './routes/countries';
-import { router as continentRouter } from './routes/continents';
-import { router as tourPointTypeRouter } from './routes/tourPointTypes';
+import { router as toursRouter } from './routes/tours';
+import { router as usersRouter } from './routes/users';
+import { router as levelsRouter } from './routes/levels';
+import { router as citiesRouter } from './routes/cities';
+import { router as countriesRouter } from './routes/countries';
+import { router as continentsRouter } from './routes/continents';
+import { router as tourPointTypesRouter } from './routes/tourPointTypes';
 
 const app = express();
 
@@ -23,13 +23,13 @@ app.use(bodyParser.json());
 app.use(authMiddleware);
 
 // router
-app.use('/users', userRouter);
-app.use('/tours', tourRouter);
-app.use('/levels', levelRouter);
-app.use('/cities', cityRouter);
-app.use('/countries', countryRouter);
-app.use('/continents', continentRouter);
-app.use('/tourpointtypes', tourPointTypeRouter);
+app.use('/users', usersRouter);
+app.use('/tours', toursRouter);
+app.use('/levels', levelsRouter);
+app.use('/cities', citiesRouter);
+app.use('/countries', countriesRouter);
+app.use('/continents', continentsRouter);
+app.use('/tourpointtypes', tourPointTypesRouter);
 
 
 
