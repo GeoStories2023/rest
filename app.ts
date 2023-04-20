@@ -17,7 +17,7 @@ import { router as tourPointTypesRouter } from './routes/tourPointTypes';
 const app = express();
 
 app.use(cors({
-  origin: '*',
+  origin: 'localhost',
 }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
