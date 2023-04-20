@@ -27,17 +27,17 @@ app.use(bodyParser.json());
 app.use(authMiddleware);
 
 // router
-app.use('/users', usersRouter);
-app.use('/tours', toursRouter);
-app.use('/levels', levelsRouter);
-app.use('/cities', citiesRouter);
-app.use('/countries', countriesRouter);
-app.use('/continents', continentsRouter);
-app.use('/tourpointtypes', tourPointTypesRouter);
+app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/tours', toursRouter);
+app.use('/api/v1/levels', levelsRouter);
+app.use('/api/v1/cities', citiesRouter);
+app.use('/api/v1/countries', countriesRouter);
+app.use('/api/v1/continents', continentsRouter);
+app.use('/api/v1/tourpointtypes', tourPointTypesRouter);
 
 
 
-app.get('/', async (req, res) => {
+app.get('/api/v1/', async (req, res) => {
   res.send('Hello World!');
 });
 
