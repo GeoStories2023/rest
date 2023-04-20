@@ -2,31 +2,9 @@ import express from 'express';
 import { config } from './config';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-// import cors from 'cors';
-var cors = require('cors')
+import cors from 'cors';
+// var cors = require('cors')
 import { authMiddleware } from './middleware';
-
-
-
-const app = express();
-
-app.use(cors({
-  origin: '*',
-  credentials: true,
-}));
-
-// set cors header
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  next();
-});
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(bodyParser.json());
-
-app.use(authMiddleware);
 
 import { router as toursRouter } from './routes/tours';
 import { router as usersRouter } from './routes/users';
@@ -35,6 +13,18 @@ import { router as citiesRouter } from './routes/cities';
 import { router as countriesRouter } from './routes/countries';
 import { router as continentsRouter } from './routes/continents';
 import { router as tourPointTypesRouter } from './routes/tourPointTypes';
+
+const app = express();
+
+app.use(cors({
+  origin: '*',
+}));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(bodyParser.json());
+
+app.use(authMiddleware);
 
 // router
 app.use('/users', usersRouter);
