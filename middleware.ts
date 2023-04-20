@@ -4,6 +4,8 @@ import { getPrismaInstance } from './lib/prisma';
 import { Prisma, User } from '@prisma/client';
 import { GeostoriesRequest } from "interfaces/iRequest";
 
+const DEBUG_NO_EMAIL_VERIFICATION = true;
+
 async function createGeostoriesUser(id: string): Promise<User> {
   const prisma = getPrismaInstance();
   console.log('Creating new user: ' + id)
@@ -25,7 +27,7 @@ export function authMiddleware(req: GeostoriesRequest, res: Response, next: Next
     const token = authHeader.split(' ')[1];
 
     getFirebaseAdmin().auth().verifyIdToken(token).then(async (decodedToken) => {
-      if (decodedToken.email_verified) {
+      if (decodedToken.email_verified || DEBUG_NO_EMAIL_VERIFICATION) {
 
         const user = await prisma.user.findUnique({ where: { uid: decodedToken.uid } });
         if (user) {
