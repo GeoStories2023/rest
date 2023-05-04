@@ -78,3 +78,37 @@ router.put("/setUsername", (req: GeostoriesRequest, res: Response) => {
   });
 });
 
+router.delete('/:uid', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const uid = req.params.uid;
+
+  prisma.user.delete({
+    where: {
+      uid: uid
+    }
+  }).then((user) => {
+    res.json(user);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
+
+
+router.put('/:uid', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const uid = req.params.uid;
+  const user = req.body;
+
+  prisma.user.update({
+    where: {
+      uid: uid
+    },
+    data: user
+  }).then((user) => {
+    res.json(user);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
