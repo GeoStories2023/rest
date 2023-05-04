@@ -213,3 +213,77 @@ router.get('/path/id/:continentId/:countryId?/:cityId?', (req: GeostoriesRequest
     res.status(500).send('Internal server error');
   });
 });
+
+
+// Create tour object
+router.post('/', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const tour = req.body;
+
+  prisma.tour.create({
+    data: tour
+  }).then((tour) => {
+    res.json(tour);
+  }
+  ).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
+
+// update tour object
+
+router.put('/:id', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const tour = req.body;
+
+  prisma.tour.update({
+    where: {
+      id: req.params.id
+    },
+    data: tour
+  }).then((tour) => {
+    res.json(tour);
+  }
+  ).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
+
+// create tour point object
+router.post('/point/', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const tourPoint = req.body;
+
+  prisma.tourPoint.create({
+    data: tourPoint
+  }).then((tourPoint) => {
+    res.json(tourPoint);
+  }
+  ).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+}
+);
+
+// update tour point object
+router.put('/point/:id', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const tourPoint = req.body;
+
+  prisma.tourPoint.update({
+    where: {
+      id: req.params.id
+    },
+    data: tourPoint
+  }).then((tourPoint) => {
+    res.json(tourPoint);
+  }
+  ).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+}
+);

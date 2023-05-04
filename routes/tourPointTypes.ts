@@ -20,3 +20,19 @@ router.get('/:id', (req: GeostoriesRequest, res: Response) => {
     res.status(500).send('Internal server error');
   });
 });
+
+
+// create tourPointType
+router.post('/', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const tourPointType: Prisma.TourPointTypeCreateInput = req.body;
+
+  prisma.tourPointType.create({
+    data: tourPointType
+  }).then((tourPointType) => {
+    res.json(tourPointType);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});

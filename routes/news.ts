@@ -1,5 +1,4 @@
 import { Response, Router } from 'express';
-import { Prisma } from '@prisma/client';
 import { getPrismaInstance } from '../lib/prisma';
 import { GeostoriesRequest } from '../interfaces/iRequest';
 
@@ -8,12 +7,12 @@ export const router: Router = Router();
 router.get('/', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
 
-  prisma.coupon.findMany({
+  prisma.news.findMany({
     include: {
-
+      image: true
     }
-  }).then((coupons) => {
-    res.json(coupons);
+  }).then((news) => {
+    res.json(news);
   }).catch((error) => {
     console.log(error);
     res.status(500).send('Internal server error');
@@ -24,30 +23,15 @@ router.get('/:id', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
   const id = req.params.id;
 
-  prisma.coupon.findUnique({
+  prisma.news.findUnique({
     where: {
       id: id
     },
     include: {
-
+      image: true
     }
-
-  }).then((coupon) => {
-    res.json(coupon);
-  }).catch((error) => {
-    console.log(error);
-    res.status(500).send('Internal server error');
-  });
-});
-
-router.post('/', (req: GeostoriesRequest, res: Response) => {
-  const prisma = getPrismaInstance();
-  const coupon: Prisma.CouponCreateInput = req.body;
-
-  prisma.coupon.create({
-    data: coupon
-  }).then((coupon) => {
-    res.json(coupon);
+  }).then((news) => {
+    res.json(news);
   }).catch((error) => {
     console.log(error);
     res.status(500).send('Internal server error');
@@ -56,20 +40,16 @@ router.post('/', (req: GeostoriesRequest, res: Response) => {
 
 router.put('/:id', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
-  const coupon: Prisma.CouponCreateInput = req.body;
-
-  prisma.coupon.update({
+  const news = req.body;
+  prisma.news.update({
     where: {
-      id: req.params.id
+      id: news.id
     },
-    data: coupon
-  }).then((coupon) => {
-    res.json(coupon);
-  }
-  ).catch((error) => {
+    data: news
+  }).then((news) => {
+    res.json(news);
+  }).catch((error) => {
     console.log(error);
     res.status(500).send('Internal server error');
   });
 });
-
-
