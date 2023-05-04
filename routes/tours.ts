@@ -89,6 +89,39 @@ router.get('/started/:id', (req: GeostoriesRequest, res: Response) => {
   });
 });
 
+router.delete('/started/:id', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const id = req.params.id;
+
+  prisma.startedTour.findUnique({
+    where: {
+      id: id
+    },
+    include: {
+      tour: true
+    }
+  }).then((startedTour) => {
+
+    if (startedTour?.userId !== req.user?.uid) {
+      res.status(403).send('Forbidden');
+      return;
+    }
+
+    prisma.startedTour.delete({
+      where: {
+        id: id
+      }
+    }).then((deletedStartedTour) => {
+      res.json(deletedStartedTour);
+    }).catch((error) => {
+      console.log(error);
+      res.status(500).send('Internal server error');
+    });
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
 
 router.post('/start/', async (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
