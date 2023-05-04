@@ -54,3 +54,21 @@ router.post('/', (req: GeostoriesRequest, res: Response) => {
     res.status(500).send('Internal server error');
   });
 });
+
+router.put('/:id', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const company: Prisma.CompanyCreateInput = req.body;
+
+  prisma.company.update({
+    where: {
+      id: company.id
+    },
+    data: company
+  }).then((company) => {
+    res.json(company);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
+
