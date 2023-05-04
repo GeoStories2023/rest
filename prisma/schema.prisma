@@ -114,6 +114,7 @@ model TourPointType {
 model TourPoint {
   id          String        @id @default(uuid())
   typeId      String
+  name        String
   type        TourPointType @relation(fields: [typeId], references: [id])
   longitude   Float
   latitude    Float

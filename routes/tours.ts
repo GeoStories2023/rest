@@ -161,11 +161,20 @@ router.get('/path/name/:continentName/:countryName?/:cityName?', (req: Geostorie
   prisma.tour.findMany({
     where: {
       city: {
-        name: cityName,
+        name: {
+          equals: cityName,
+          mode: 'insensitive'
+        },
         country: {
-          name: countryName,
+          name: {
+            equals: countryName,
+            mode: 'insensitive'
+          },
           continent: {
-            name: continentName
+            name: {
+              equals: continentName,
+              mode: 'insensitive'
+            }
           }
         }
       }
