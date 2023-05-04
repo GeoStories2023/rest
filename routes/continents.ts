@@ -53,7 +53,10 @@ router.get('/name/:name', (req: GeostoriesRequest, res: Response) => {
 
   prisma.continent.findFirst({
     where: {
-      name: name
+      name: {
+        equals: name,
+        mode: 'insensitive'
+      }
     },
     include: {
       countries: includeCountries,

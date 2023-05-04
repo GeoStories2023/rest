@@ -49,7 +49,10 @@ router.get('/name/:name', (req: GeostoriesRequest, res: Response) => {
 
   prisma.city.findFirst({
     where: {
-      name: name
+      name: {
+        equals: name,
+        mode: 'insensitive'
+      }
     },
     include: {
       country: true,
