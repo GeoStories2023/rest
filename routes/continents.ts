@@ -66,3 +66,17 @@ router.get('/name/:name', (req: GeostoriesRequest, res: Response) => {
     res.status(500).send('Internal server error');
   });
 });
+
+router.post('/', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const continent: Prisma.ContinentCreateInput = req.body;
+
+  prisma.continent.create({
+    data: continent
+  }).then((continent) => {
+    res.json(continent);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
