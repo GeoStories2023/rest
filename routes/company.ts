@@ -72,3 +72,18 @@ router.put('/:id', (req: GeostoriesRequest, res: Response) => {
   });
 });
 
+router.delete('/:id', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const id = req.params.id;
+
+  prisma.company.delete({
+    where: {
+      id: id
+    }
+  }).then((company) => {
+    res.json(company);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
