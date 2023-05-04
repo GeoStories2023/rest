@@ -62,3 +62,35 @@ router.get('/name/:name', (req: GeostoriesRequest, res: Response) => {
     res.status(500).send('Internal server error');
   });
 });
+
+// create city
+router.post('/', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const city: Prisma.CityCreateInput = req.body;
+
+  prisma.city.create({
+    data: city
+  }).then((city) => {
+    res.json(city);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
+
+router.put('/:id', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const city: Prisma.CityCreateInput = req.body;
+
+  prisma.city.update({
+    where: {
+      id: req.params.id
+    },
+    data: city
+  }).then((city) => {
+    res.json(city);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
