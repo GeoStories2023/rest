@@ -43,7 +43,11 @@ router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
         favoriteTours: true,
         startedTours: true,
         coupons: true,
-        friends: true
+        friends: {
+          include: {
+            friendUser: true
+          }
+        }
       }
     }).then((user) => {
       res.json(user);
