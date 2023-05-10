@@ -14,6 +14,7 @@ model User {
   uid            String         @id
   username       String         @unique @default(cuid())
   askUsername    Boolean        @default(true)
+  status         String         @default("")
   profileImage   Image?         @relation(fields: [profileImageId], references: [id])
   profileImageId String?
   isPremium      Boolean        @default(false)
@@ -24,6 +25,18 @@ model User {
   startedTours   StartedTour[]
   coupons        Coupon[]
   favoriteTours  FavoriteTour[]
+  friends        Friend[]       @relation(name: "user")
+  friendUsers    Friend[]       @relation(name: "friend_user")
+}
+
+model Friend {
+  id           String @id @default(uuid())
+  user         User   @relation(name: "user", fields: [userId], references: [uid])
+  userId       String
+  friendUser   User   @relation(name: "friend_user", fields: [friendUserId], references: [uid])
+  friendUserId String
+
+  @@unique([userId, friendUserId])
 }
 
 model Level {
