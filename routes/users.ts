@@ -6,6 +6,7 @@ import { Prisma, User, Friend } from '@prisma/client';
 export const router: Router = Router();
 
 router.get('/', (req: GeostoriesRequest, res: Response) => {
+  // TODO Permissions
   const prisma = getPrismaInstance();
   prisma.user.findUnique({
     where: {
@@ -62,6 +63,29 @@ router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
   }
 });
 
+// router.get('/:uid/statistics', (req: GeostoriesRequest, res: Response) => {
+//   const prisma = getPrismaInstance();
+//   const uid = req.params.uid;
+
+//   // Get count of tours, Count of visted cities, countries and continents
+//   const toursCount = await prisma.startedTour.count({
+//     where: {
+//       userId: uid
+//     }
+//   });
+
+//   const startedToursWithCities = await prisma.startedTour.aggregate({
+//     where: {
+//       userId: uid
+//     },
+//     _count: true,
+
+
+
+
+
+
+
 router.post('/:uid/friends', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
   const uid = req.params.uid;
@@ -72,10 +96,10 @@ router.post('/:uid/friends', (req: GeostoriesRequest, res: Response) => {
     return;
   }
 
-  if (uid !== req.user?.uid) {
-    res.status(403).send('Forbidden');
-    return;
-  }
+  // if (uid !== req.user?.uid) {
+  //   res.status(403).send('Forbidden');
+  //   return;
+  // }
 
   prisma.user.findUnique({
     where: {
@@ -138,10 +162,10 @@ router.delete('/:uid/friends/:friendUid', (req: GeostoriesRequest, res: Response
 
   }
 
-  if (uid !== req.user?.uid) {
-    res.status(403).send('Forbidden');
-    return;
-  }
+  // if (uid !== req.user?.uid) {
+  //   res.status(403).send('Forbidden');
+  //   return;
+  // }
 
   prisma.friend.findFirst({
     where: {
