@@ -63,27 +63,102 @@ router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
 
 });
 
-// router.get('/:uid/statistics', (req: GeostoriesRequest, res: Response) => {
-//   const prisma = getPrismaInstance();
-//   const uid = req.params.uid;
+router.get('/:uid/statistics', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const uid = req.params.uid;
 
-//   // Get count of tours, Count of visted cities, countries and continents
-//   const toursCount = await prisma.startedTour.count({
-//     where: {
-//       userId: uid
-//     }
-//   });
-
-//   const startedToursWithCities = await prisma.startedTour.groupBy({
-//     by: ['city'],
-//     where: {
+  // Get count of tours, Count of visted cities, countries and continents
+  prisma.startedTour.count({
+    where: {
+      userId: uid
+    }
+  }).then((toursCount) => {
 
 
+    prisma.startedTour.findMany({
+      where: {
+        userId: uid
+      },
+      include: {
+        tour: {
+          include: {
+            city: {
+              include: {
+                country: {
+                  include: {
+                    continent: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }).then((startedTours) => {
+      // Object out with countrries, cities and continents and count them
+      // Example:
+      // {
+      //   toursCount: 10,
+      //   visitedCities:{
+      //     germany: 2,
+      //     france: 1
+      //  }
 
 
+      const visitedCities = {};
+      const visitedCountries = {};
+      const visitedContinents = {};
 
 
+      startedTours.forEach((startedTour) => {
+        const city = startedTour.tour.city;
+        const country = city?.country;
+        const continent = country?.continent;
 
+        if (city?.name) {
+          if (visitedCities[city.name]) {
+            visitedCities[city.name] += 1;
+          } else {
+            visitedCities[city.name] = 1;
+          }
+        }
+
+        if (country?.name) {
+
+          if (visitedCountries[country.name]) {
+            visitedCountries[country.name] += 1;
+          } else {
+            visitedCountries[country.name] = 1;
+          }
+        }
+
+        if (continent?.name) {
+          if (visitedContinents[continent.name]) {
+            visitedContinents[continent.name] += 1;
+          } else {
+            visitedContinents[continent.name] = 1;
+          }
+        }
+      });
+
+      const statistics = {
+        toursCount: toursCount,
+        visitedCities: visitedCities,
+        visitedCountries: visitedCountries,
+        visitedContinents: visitedContinents
+      };
+
+      res.json(statistics);
+
+    }).catch((error) => {
+      console.log(error);
+      res.status(500).send('Internal server error');
+    });
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
 
 router.post('/:uid/friends', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
