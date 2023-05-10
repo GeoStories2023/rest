@@ -35,32 +35,32 @@ router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
 
   // TODO proper check for privacy settings
-  if (req.user?.uid !== req.params.uid) {
-    res.status(403).send('Forbidden');
-    return;
-  } else {
-    prisma.user.findUnique({
-      where: {
-        uid: req.params.uid
-      },
-      include: {
-        profileImage: true,
-        favoriteTours: true,
-        startedTours: true,
-        coupons: true,
-        friends: {
-          include: {
-            friendUser: true
-          }
+  // if (req.user?.uid !== req.params.uid) {
+  //   res.status(403).send('Forbidden');
+  //   return;
+  // } 
+  prisma.user.findUnique({
+    where: {
+      uid: req.params.uid
+    },
+    include: {
+      profileImage: true,
+      favoriteTours: true,
+      startedTours: true,
+      coupons: true,
+      friends: {
+        include: {
+          friendUser: true
         }
       }
-    }).then((user) => {
-      res.json(user);
-    }).catch((error: any) => {
-      console.log(error);
-      res.status(500).send('Internal server error');
-    });
-  }
+    }
+  }).then((user) => {
+    res.json(user);
+  }).catch((error: any) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+
 });
 
 // router.get('/:uid/statistics', (req: GeostoriesRequest, res: Response) => {
@@ -74,11 +74,10 @@ router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
 //     }
 //   });
 
-//   const startedToursWithCities = await prisma.startedTour.aggregate({
+//   const startedToursWithCities = await prisma.startedTour.groupBy({
+//     by: ['city'],
 //     where: {
-//       userId: uid
-//     },
-//     _count: true,
+
 
 
 
