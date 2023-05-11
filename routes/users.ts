@@ -174,7 +174,7 @@ router.post('/:uid/friends', (req: GeostoriesRequest, res: Response) => {
   //   res.status(403).send('Forbidden');
   //   return;
   // }
-  console.log(uid)
+
   prisma.user.findUnique({
     where: {
       uid: uid
