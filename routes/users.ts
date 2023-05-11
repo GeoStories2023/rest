@@ -31,17 +31,13 @@ router.get('/', (req: GeostoriesRequest, res: Response) => {
   });
 });
 
-router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
+router.get('/me', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
+  const uid = req.user?.uid;
 
-  // TODO proper check for privacy settings
-  // if (req.user?.uid !== req.params.uid) {
-  //   res.status(403).send('Forbidden');
-  //   return;
-  // } 
   prisma.user.findUnique({
     where: {
-      uid: req.params.uid
+      uid: uid
     },
     include: {
       profileImage: true,
@@ -63,9 +59,9 @@ router.get('/:uid', (req: GeostoriesRequest, res: Response) => {
 
 });
 
-router.get('/:uid/statistics', (req: GeostoriesRequest, res: Response) => {
+router.get('/statistics', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
-  const uid = req.params.uid;
+  const uid = req.user?.uid;
 
   // Get count of tours, Count of visted cities, countries and continents
   prisma.startedTour.count({
@@ -160,12 +156,12 @@ router.get('/:uid/statistics', (req: GeostoriesRequest, res: Response) => {
   });
 });
 
-router.post('/:uid/friends', (req: GeostoriesRequest, res: Response) => {
+router.post('/friends', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
-  const uid = req.params.uid;
-  const friendUid = req.body.friendUid;
+  const uid = req.user?.uid;
+  const friendName = req.body.friendName;
 
-  if (uid === friendUid) {
+  if (req.user?.username === friendName) {
     res.status(400).send('Bad request');
     return;
   }
@@ -183,7 +179,7 @@ router.post('/:uid/friends', (req: GeostoriesRequest, res: Response) => {
     if (user) {
       prisma.user.findUnique({
         where: {
-          uid: friendUid
+          username: friendName
         }
       }).then((wantedFriend) => {
         if (wantedFriend) {
@@ -196,7 +192,7 @@ router.post('/:uid/friends', (req: GeostoriesRequest, res: Response) => {
               },
               friendUser: {
                 connect: {
-                  uid: friendUid
+                  username: friendName
                 }
               }
             },
@@ -225,9 +221,9 @@ router.post('/:uid/friends', (req: GeostoriesRequest, res: Response) => {
   });
 });
 
-router.delete('/:uid/friends/:friendUid', (req: GeostoriesRequest, res: Response) => {
+router.delete('/friends/:friendUid', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
-  const uid = req.params.uid;
+  const uid = req.user?.uid;
   const friendUid = req.params.friendUid;
 
   if (uid === friendUid) {
@@ -299,9 +295,9 @@ router.put("/setUsername", (req: GeostoriesRequest, res: Response) => {
   });
 });
 
-router.delete('/:uid', (req: GeostoriesRequest, res: Response) => {
+router.delete('/me', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
-  const uid = req.params.uid;
+  const uid = req.user?.uid;
 
   prisma.user.delete({
     where: {
@@ -316,9 +312,9 @@ router.delete('/:uid', (req: GeostoriesRequest, res: Response) => {
 });
 
 
-router.put('/:uid', (req: GeostoriesRequest, res: Response) => {
+router.put('/me', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
-  const uid = req.params.uid;
+  const uid = req.user?.uid;
   const user = req.body;
 
   prisma.user.update({
