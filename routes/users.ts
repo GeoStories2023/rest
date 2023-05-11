@@ -292,6 +292,7 @@ router.put("/setUsername", (req: GeostoriesRequest, res: Response) => {
   }).catch((error: any) => {
     console.log(error);
     console.log(JSON.parse(error))
+    res.status(500).json(error);
     res.status(500).send('Internal server error');
   });
 });
