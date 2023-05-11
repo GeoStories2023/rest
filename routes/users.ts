@@ -5,31 +5,31 @@ import { Prisma, User, Friend } from '@prisma/client';
 
 export const router: Router = Router();
 
-router.get('/', (req: GeostoriesRequest, res: Response) => {
-  // TODO Permissions
-  const prisma = getPrismaInstance();
-  prisma.user.findUnique({
-    where: {
-      uid: req.user?.uid
-    },
-    include: {
-      profileImage: true,
-      favoriteTours: true,
-      startedTours: true,
-      coupons: true,
-      friends: {
-        include: {
-          friendUser: true
-        }
-      }
-    }
-  }).then((user) => {
-    res.json(user);
-  }).catch((error) => {
-    console.log(error);
-    res.status(500).send('Internal server error');
-  });
-});
+// router.get('/', (req: GeostoriesRequest, res: Response) => {
+// //   TODO Permissions
+//   const prisma = getPrismaInstance();
+//   prisma.user.findUnique({
+//     where: {
+//       uid: req.user?.uid
+//     },
+//     include: {
+//       profileImage: true,
+//       favoriteTours: true,
+//       startedTours: true,
+//       coupons: true,
+//       friends: {
+//         include: {
+//           friendUser: true
+//         }
+//       }
+//     }
+//   }).then((user) => {
+//     res.json(user);
+//   }).catch((error) => {
+//     console.log(error);
+//     res.status(500).send('Internal server error');
+//   });
+// });
 
 router.get('/me', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
