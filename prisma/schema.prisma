@@ -82,6 +82,7 @@ model StartedTour {
   isCompleted Boolean   @default(false)
   dateStarted DateTime  @default(now())
   dateEnded   DateTime?
+  progress    Int       @default(0)
   tourId      String
   tour        Tour      @relation(fields: [tourId], references: [id])
   userId      String
