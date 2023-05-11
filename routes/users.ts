@@ -291,7 +291,6 @@ router.put("/setUsername", (req: GeostoriesRequest, res: Response) => {
     res.json(user);
   }).catch((error: any) => {
     console.log(error);
-    console.log(error.code)
     if (error.code === 'P2002') {
       res.status(400).send('Username already taken');
     } else {
