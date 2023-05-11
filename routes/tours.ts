@@ -123,7 +123,6 @@ router.delete('/started/:id', (req: GeostoriesRequest, res: Response) => {
 });
 
 router.put('/started/:id/progress', (req: GeostoriesRequest, res: Response) => {
-
   const prisma = getPrismaInstance();
   const id = req.params.id;
   const progress = req.body.progress;
