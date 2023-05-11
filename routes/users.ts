@@ -163,7 +163,7 @@ router.get('/:uid/statistics', (req: GeostoriesRequest, res: Response) => {
 router.post('/:uid/friends', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
   const uid = req.params.uid;
-  const friendUid = req.body.uid;
+  const friendUid = req.body.friendUid;
 
   if (uid === friendUid) {
     res.status(400).send('Bad request');
@@ -174,7 +174,7 @@ router.post('/:uid/friends', (req: GeostoriesRequest, res: Response) => {
   //   res.status(403).send('Forbidden');
   //   return;
   // }
-
+  console.log(uid)
   prisma.user.findUnique({
     where: {
       uid: uid
