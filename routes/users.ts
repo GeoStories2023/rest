@@ -5,35 +5,9 @@ import { Prisma, User, Friend } from '@prisma/client';
 
 export const router: Router = Router();
 
-// router.get('/', (req: GeostoriesRequest, res: Response) => {
-// //   TODO Permissions
-//   const prisma = getPrismaInstance();
-//   prisma.user.findUnique({
-//     where: {
-//       uid: req.user?.uid
-//     },
-//     include: {
-//       profileImage: true,
-//       favoriteTours: true,
-//       startedTours: true,
-//       coupons: true,
-//       friends: {
-//         include: {
-//           friendUser: true
-//         }
-//       }
-//     }
-//   }).then((user) => {
-//     res.json(user);
-//   }).catch((error) => {
-//     console.log(error);
-//     res.status(500).send('Internal server error');
-//   });
-// });
-
-router.get('/me', (req: GeostoriesRequest, res: Response) => {
+router.get('/:uid?', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
-  const uid = req.user?.uid;
+  const uid = req.params.uid ?? req.user?.uid;
 
   prisma.user.findUnique({
     where: {
@@ -265,9 +239,16 @@ router.delete('/friends/:friendUid', (req: GeostoriesRequest, res: Response) => 
 });
 
 
-router.put("/setUsername", (req: GeostoriesRequest, res: Response) => {
+router.put("/setUsername/:uid?", (req: GeostoriesRequest, res: Response) => {
   const body = req.body;
   const prisma = getPrismaInstance();
+  const uid = req.params.uid ?? req.user?.uid;
+
+  // Temporary permission solution
+  if (uid !== req.user?.uid) {
+    res.status(403).send('Forbidden');
+    return;
+  }
 
   prisma.user.update({
     where: {
@@ -295,9 +276,15 @@ router.put("/setUsername", (req: GeostoriesRequest, res: Response) => {
   });
 });
 
-router.delete('/me', (req: GeostoriesRequest, res: Response) => {
+router.delete('/:uid?', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
-  const uid = req.user?.uid;
+  const uid = req.params.uid ?? req.user?.uid;
+
+  // Temporary permission solution
+  if (uid !== req.user?.uid) {
+    res.status(403).send('Forbidden');
+    return;
+  }
 
   prisma.user.delete({
     where: {
@@ -312,10 +299,16 @@ router.delete('/me', (req: GeostoriesRequest, res: Response) => {
 });
 
 
-router.put('/me', (req: GeostoriesRequest, res: Response) => {
+router.put('/:uid?', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
-  const uid = req.user?.uid;
+  const uid = req.params.uid ?? req.user?.uid;
   const user = req.body;
+
+  // Temporary permission solution
+  if (uid !== req.user?.uid) {
+    res.status(403).send('Forbidden');
+    return;
+  }
 
   prisma.user.update({
     where: {
