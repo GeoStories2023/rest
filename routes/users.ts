@@ -33,9 +33,9 @@ router.get('/:uid?', (req: GeostoriesRequest, res: Response) => {
 
 });
 
-router.get('/statistics', (req: GeostoriesRequest, res: Response) => {
+router.get('/statistics/:uid?', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
-  const uid = req.user?.uid;
+  const uid = req.params.uid ?? req.user?.uid;
 
   // Get count of tours, Count of visted cities, countries and continents
   prisma.startedTour.count({
