@@ -1,4 +1,3 @@
-
 import { Response, Router } from 'express';
 import { Prisma } from '@prisma/client';
 import { getPrismaInstance } from '../lib/prisma';
@@ -122,6 +121,29 @@ router.delete('/started/:id', (req: GeostoriesRequest, res: Response) => {
     res.status(500).send('Internal server error');
   });
 });
+
+router.put('/started/:id/progress', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const id = req.params.id;
+  const progress = req.body.progress;
+
+  prisma.startedTour.update({
+    where: {
+      id: id
+
+    },
+    data: {
+      progress: progress
+    }
+  }).then((startedTour) => {
+    res.json(startedTour);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
+
+
 
 router.post('/start/', async (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
