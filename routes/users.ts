@@ -315,7 +315,10 @@ router.delete('/:uid', (req: GeostoriesRequest, res: Response) => {
 router.put('/:uid', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
   const uid = req.params.uid;
-  const user = req.body;
+  const user = req.body.user;
+
+
+
 
   prisma.user.update({
     where: {
