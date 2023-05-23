@@ -27,6 +27,7 @@ model User {
   favoriteTours  FavoriteTour[]
   friends        Friend[]       @relation(name: "user")
   friendUsers    Friend[]       @relation(name: "friend_user")
+  Diary          Diary[]
 }
 
 model Friend {
@@ -154,6 +155,7 @@ model Tour {
   city          City?          @relation(fields: [cityId], references: [id])
   cityId        String?
   favoriteTours FavoriteTour[]
+  Diary         Diary[]
 }
 
 model News {
@@ -189,4 +191,16 @@ model Image {
   countries    Country[]
   cities       City[]
   achievements Achievement[]
+}
+
+model Diary {
+  id          String   @id @default(uuid())
+  title       String   @default("")
+  content     String   @default("")
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @default(now()) @updatedAt
+  tourId      String
+  tour        Tour     @relation(fields: [tourId], references: [id])
+  userId      String
+  user        User     @relation(fields: [userId], references: [uid])
 }
