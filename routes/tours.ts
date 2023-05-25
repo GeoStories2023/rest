@@ -122,29 +122,6 @@ router.delete('/started/:id', (req: GeostoriesRequest, res: Response) => {
   });
 });
 
-router.put('/started/:id/progress', (req: GeostoriesRequest, res: Response) => {
-  const prisma = getPrismaInstance();
-  const id = req.params.id;
-  const progress = req.body.progress;
-
-  prisma.startedTour.update({
-    where: {
-      id: id
-
-    },
-    data: {
-      progress: progress
-    }
-  }).then((startedTour) => {
-    res.json(startedTour);
-  }).catch((error) => {
-    console.log(error);
-    res.status(500).send('Internal server error');
-  });
-});
-
-
-
 router.post('/start/', async (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
   const tourId = req.body.tourId;
