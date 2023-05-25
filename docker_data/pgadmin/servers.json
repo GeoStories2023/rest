@@ -5,7 +5,7 @@
 			"Group": "GeoStories",
 			"Host": "postgres",
 			"Port": 5432,
-			"MaintenanceDB": "keycloak",
+			"MaintenanceDB": "geostories",
 			"Username": "postgres",
 			"PassFile": "/pgpass",
 			"SSLMode": "prefer"
