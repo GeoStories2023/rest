@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "prisma db push && ts-node app.ts",
 		"dev": "npm i && prisma db push && prisma generate && nodemon app.ts",
-		"prisma": "prisma db push && prisma generate"
+		"prisma": "prisma generate"
 	},
 	"devDependencies": {
 		"@types/cookie-parser": "^1.4.3",
