@@ -79,15 +79,15 @@ model FavoriteTour {
 }
 
 model StartedTour {
-  id          String    @id @default(uuid())
-  isCompleted Boolean   @default(false)
-  dateStarted DateTime  @default(now())
+  id          String      @id @default(uuid())
+  isCompleted Boolean     @default(false)
+  dateStarted DateTime    @default(now())
   dateEnded   DateTime?
-  progress    Int       @default(0)
   tourId      String
-  tour        Tour      @relation(fields: [tourId], references: [id])
+  tour        Tour        @relation(fields: [tourId], references: [id])
   userId      String
-  user        User      @relation(fields: [userId], references: [uid])
+  user        User        @relation(fields: [userId], references: [uid])
+  TourPoint   TourPoint[]
 }
 
 model Continent {
@@ -127,17 +127,19 @@ model TourPointType {
 }
 
 model TourPoint {
-  id          String        @id @default(uuid())
-  typeId      String
-  name        String
-  type        TourPointType @relation(fields: [typeId], references: [id])
-  longitude   Float
-  latitude    Float
-  description String        @default("")
-  dateCreated DateTime      @default(now())
-  dateUpdated DateTime      @default(now()) @updatedAt
-  tour        Tour?         @relation(fields: [tourId], references: [id])
-  tourId      String?
+  id            String        @id @default(uuid())
+  typeId        String
+  name          String
+  type          TourPointType @relation(fields: [typeId], references: [id])
+  longitude     Float
+  latitude      Float
+  description   String        @default("")
+  dateCreated   DateTime      @default(now())
+  dateUpdated   DateTime      @default(now()) @updatedAt
+  tour          Tour?         @relation(fields: [tourId], references: [id])
+  tourId        String?
+  StartedTour   StartedTour?  @relation(fields: [startedTourId], references: [id])
+  startedTourId String?
 }
 
 model Tour {
