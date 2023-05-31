@@ -13,6 +13,7 @@ COPY ./routes/* ./routes/
 
 
 RUN npm i --verbose
+RUN npm run prisma
 
 EXPOSE 3000
 

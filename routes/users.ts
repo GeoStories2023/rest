@@ -300,7 +300,7 @@ router.delete('/:uid?', (req: GeostoriesRequest, res: Response) => {
 router.put('/:uid?', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
   const uid = req.params.uid ?? req.user?.uid;
-  const user = req.body.user;
+  const user: Prisma.UserUncheckedUpdateInput = req.body.user;
 
   // Temporary permission solution
   if (uid !== req.user?.uid) {
