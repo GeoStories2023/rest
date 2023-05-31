@@ -36,6 +36,8 @@ model Friend {
   userId       String
   friendUser   User   @relation(name: "friend_user", fields: [friendUserId], references: [uid])
   friendUserId String
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @default(now()) @updatedAt
 
   @@unique([userId, friendUserId])
 }
