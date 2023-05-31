@@ -26,6 +26,7 @@ model User {
   favoriteTours   FavoriteTour[]
   friends         Friend[]       @relation(name: "user")
   friendUsers     Friend[]       @relation(name: "friend_user")
+  Diary           Diary[]
 }
 
 model Friend {
@@ -172,18 +173,6 @@ model Achievement {
   dateCreated DateTime @default(now())
   dateUpdated DateTime @default(now()) @updatedAt
   imageUrl    String?
-}
-
-model Diary {
-  id          String   @id @default(uuid())
-  title       String   @default("")
-  content     String   @default("")
-  dateCreated DateTime @default(now())
-  dateUpdated DateTime @default(now()) @updatedAt
-  tourId      String
-  tour        Tour     @relation(fields: [tourId], references: [id])
-  userId      String
-  user        User     @relation(fields: [userId], references: [uid])
 }
 
 model Diary {
