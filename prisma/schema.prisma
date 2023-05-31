@@ -160,7 +160,7 @@ model Tour {
 model News {
   id          String   @id @default(uuid())
   title       String
-  description String
+  content     String
   dateCreated DateTime @default(now())
   dateUpdated DateTime @default(now()) @updatedAt
   imageUrl    String?
