@@ -11,22 +11,21 @@ datasource db {
 }
 
 model User {
-  uid            String         @id
-  username       String         @unique @default(cuid())
-  askUsername    Boolean        @default(true)
-  status         String         @default("")
-  profileImage   Image?         @relation(fields: [profileImageId], references: [id])
-  profileImageId String?
-  isPremium      Boolean        @default(false)
-  isAdmin        Boolean        @default(false)
-  dateCreated    DateTime       @default(now())
-  dateUpdated    DateTime       @default(now()) @updatedAt
-  xp             Int            @default(0)
-  startedTours   StartedTour[]
-  coupons        Coupon[]
-  favoriteTours  FavoriteTour[]
-  friends        Friend[]       @relation(name: "user")
-  friendUsers    Friend[]       @relation(name: "friend_user")
+  uid             String         @id
+  username        String         @unique @default(cuid())
+  askUsername     Boolean        @default(true)
+  status          String         @default("")
+  profileImageUrl String?
+  isPremium       Boolean        @default(false)
+  isAdmin         Boolean        @default(false)
+  dateCreated     DateTime       @default(now())
+  dateUpdated     DateTime       @default(now()) @updatedAt
+  xp              Int            @default(0)
+  startedTours    StartedTour[]
+  coupons         Coupon[]
+  favoriteTours   FavoriteTour[]
+  friends         Friend[]       @relation(name: "user")
+  friendUsers     Friend[]       @relation(name: "friend_user")
 }
 
 model Friend {
@@ -92,8 +91,7 @@ model StartedTour {
 model Continent {
   id        String    @id @default(uuid())
   name      String
-  imageId   String?
-  image     Image?    @relation(fields: [imageId], references: [id])
+  imageUrl  String?
   countries Country[]
 }
 
@@ -102,8 +100,7 @@ model Country {
   name        String
   continentId String
   continent   Continent @relation(fields: [continentId], references: [id])
-  imageId     String?
-  image       Image?    @relation(fields: [imageId], references: [id])
+  imageUrl    String?
   cities      City[]
 }
 
@@ -112,8 +109,7 @@ model City {
   name      String
   countryId String
   country   Country @relation(fields: [countryId], references: [id])
-  imageId   String?
-  image     Image?  @relation(fields: [imageId], references: [id])
+  imageUrl  String?
   tours     Tour[]
 }
 
@@ -145,8 +141,7 @@ model Tour {
   description   String         @default("")
   tourPoints    TourPoint[]
   duration      Int            @default(0)
-  image         Image?         @relation(fields: [imageId], references: [id])
-  imageId       String?
+  imageUrl      String?
   dateCreated   DateTime       @default(now())
   dateUpdated   DateTime       @default(now()) @updatedAt
   xp            Int            @default(0)
@@ -162,8 +157,7 @@ model News {
   description String
   dateCreated DateTime @default(now())
   dateUpdated DateTime @default(now()) @updatedAt
-  image       Image?   @relation(fields: [imageId], references: [id])
-  imageId     String?
+  imageUrl    String?
 }
 
 model Achievement {
@@ -172,21 +166,5 @@ model Achievement {
   description String
   dateCreated DateTime @default(now())
   dateUpdated DateTime @default(now()) @updatedAt
-  image       Image?   @relation(fields: [imageId], references: [id])
-  imageId     String?
-}
-
-model Image {
-  id           String        @id @default(uuid())
-  url          String
-  name         String        @default("")
-  dateCreated  DateTime      @default(now())
-  dateUpdated  DateTime      @default(now()) @updatedAt
-  tours        Tour[]
-  users        User[]
-  news         News[]
-  continents   Continent[]
-  countries    Country[]
-  cities       City[]
-  achievements Achievement[]
+  imageUrl    String?
 }

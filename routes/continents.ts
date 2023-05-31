@@ -14,7 +14,6 @@ router.get('/', (req: GeostoriesRequest, res: Response) => {
   prisma.continent.findMany({
     include: {
       countries: includeCountries,
-      image: true
     }
   }).then((continents) => {
     res.json(continents);
@@ -35,7 +34,6 @@ router.get('/:id', (req: GeostoriesRequest, res: Response) => {
     },
     include: {
       countries: includeCountries,
-      image: true
     }
   }).then((continent) => {
     res.json(continent);
@@ -60,7 +58,6 @@ router.get('/name/:name', (req: GeostoriesRequest, res: Response) => {
     },
     include: {
       countries: includeCountries,
-      image: true
     }
   }).then((continent) => {
     res.json(continent);

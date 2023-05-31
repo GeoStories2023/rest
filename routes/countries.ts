@@ -15,7 +15,6 @@ router.get('/', (req: GeostoriesRequest, res: Response) => {
     include: {
       continent: true,
       cities: includeCities,
-      image: true
     }
   }).then((countries) => {
     res.json(countries);
@@ -38,7 +37,6 @@ router.get('/:id', (req: GeostoriesRequest, res: Response) => {
     include: {
       continent: true,
       cities: includeCities,
-      image: true
     }
   }).then((country) => {
     res.json(country);
@@ -65,7 +63,6 @@ router.get('/name/:name', (req: GeostoriesRequest, res: Response) => {
     include: {
       continent: true,
       cities: includeCities,
-      image: true
     }
   }).then((country) => {
     res.json(country);

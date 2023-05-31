@@ -9,7 +9,6 @@ router.get('/', (req: GeostoriesRequest, res: Response) => {
 
   prisma.news.findMany({
     include: {
-      image: true
     }
   }).then((news) => {
     res.json(news);
@@ -28,7 +27,6 @@ router.get('/:id', (req: GeostoriesRequest, res: Response) => {
       id: id
     },
     include: {
-      image: true
     }
   }).then((news) => {
     res.json(news);

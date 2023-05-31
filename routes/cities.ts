@@ -12,7 +12,6 @@ router.get('/', (req: GeostoriesRequest, res: Response) => {
   prisma.city.findMany({
     include: {
       country: true,
-      image: true
     }
   }).then((cities) => {
     res.json(cities);
@@ -32,7 +31,6 @@ router.get('/:id', (req: GeostoriesRequest, res: Response) => {
     },
     include: {
       country: true,
-      image: true
     }
   }).then((city) => {
     res.json(city);
@@ -56,7 +54,6 @@ router.get('/name/:name', (req: GeostoriesRequest, res: Response) => {
     },
     include: {
       country: true,
-      image: true
     }
   }).then((city) => {
     res.json(city);

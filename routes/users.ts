@@ -14,7 +14,6 @@ router.get('/:uid?', (req: GeostoriesRequest, res: Response) => {
       uid: uid
     },
     include: {
-      profileImage: true,
       favoriteTours: true,
       startedTours: true,
       coupons: true,
@@ -255,7 +254,6 @@ router.put("/setUsername/:uid?", (req: GeostoriesRequest, res: Response) => {
       uid: req.user?.uid
     },
     include: {
-      profileImage: true,
       favoriteTours: true,
       startedTours: true,
       coupons: true

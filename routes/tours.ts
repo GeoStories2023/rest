@@ -10,7 +10,6 @@ router.get('/', (req: GeostoriesRequest, res: Response) => {
 
   prisma.tour.findMany({
     include: {
-      image: true,
       tourPoints: true,
       city: true
 
@@ -33,7 +32,6 @@ router.get('/:id', (req: GeostoriesRequest, res: Response) => {
       id: id
     },
     include: {
-      image: true,
       tourPoints: true,
       city: true
     }
@@ -122,26 +120,26 @@ router.delete('/started/:id', (req: GeostoriesRequest, res: Response) => {
   });
 });
 
-router.put('/started/:id/progress', (req: GeostoriesRequest, res: Response) => {
-  const prisma = getPrismaInstance();
-  const id = req.params.id;
-  const progress = req.body.progress;
+// router.put('/started/:id/progress', (req: GeostoriesRequest, res: Response) => {
+//   const prisma = getPrismaInstance();
+//   const id = req.params.id;
+//   const progress = req.body.progress;
 
-  prisma.startedTour.update({
-    where: {
-      id: id
+//   prisma.startedTour.update({
+//     where: {
+//       id: id
 
-    },
-    data: {
-      progress: progress
-    }
-  }).then((startedTour) => {
-    res.json(startedTour);
-  }).catch((error) => {
-    console.log(error);
-    res.status(500).send('Internal server error');
-  });
-});
+//     },
+//     data: {
+//       progress: progress
+//     }
+//   }).then((startedTour) => {
+//     res.json(startedTour);
+//   }).catch((error) => {
+//     console.log(error);
+//     res.status(500).send('Internal server error');
+//   });
+// });
 
 
 
@@ -238,7 +236,6 @@ router.get('/path/name/:continentName/:countryName?/:cityName?', (req: Geostorie
       }
     },
     include: {
-      image: true,
       tourPoints: true,
       city: true
     }
@@ -270,7 +267,6 @@ router.get('/path/id/:continentId/:countryId?/:cityId?', (req: GeostoriesRequest
       }
     },
     include: {
-      image: true,
       tourPoints: true,
       city: true
     }
