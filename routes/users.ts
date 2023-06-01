@@ -17,7 +17,12 @@ router.get('/:uid?', (req: GeostoriesRequest, res: Response) => {
       favoriteTours: true,
       startedTours: {
         include: {
-          tour: true
+          tour: {
+            include: {
+              city: true
+            }
+
+          }
         }
       },
       coupons: true,
