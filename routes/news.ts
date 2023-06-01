@@ -8,8 +8,7 @@ router.get('/', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
 
   prisma.news.findMany({
-    include: {
-    }
+
   }).then((news) => {
     res.json(news);
   }).catch((error) => {
@@ -26,8 +25,7 @@ router.get('/:id', (req: GeostoriesRequest, res: Response) => {
     where: {
       id: id
     },
-    include: {
-    }
+
   }).then((news) => {
     res.json(news);
   }).catch((error) => {
