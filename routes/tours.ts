@@ -185,6 +185,101 @@ router.put('/stop/', async (req: GeostoriesRequest, res: Response) => {
   }
 });
 
+router.post('/point/visited/', async (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+  const startedTourId = req.body.startedTourId;
+  const tourPointId = req.body.tourPointId;
+
+  const startedTour = await prisma.startedTour.findUnique({
+    where: {
+      id: startedTourId
+    },
+    include: {
+      user: true
+    }
+  });
+
+  if (startedTour?.user.uid !== req.user?.uid) {
+    res.status(403).send('Forbidden');
+    return;
+  } else {
+    prisma.tourPointOnStartedTour.create({
+      data: {
+        tourPoint: {
+          connect: {
+            id: tourPointId
+          }
+        },
+        startedTour: {
+          connect: {
+            id: startedTourId
+          }
+        }
+      }
+    }).then((tourPointOnStartedTour) => {
+      prisma.startedTour.findUnique({
+        where: {
+          id: startedTourId
+        },
+        include: {
+          tour: {
+            include: {
+              tourPoints: true
+            }
+          },
+          tourPointOnStartedTour: {
+            include: {
+              tourPoint: true
+            }
+          }
+        }
+      }).then((startedTour) => {
+        let isCompleted = true;
+        for (const tourPoint of startedTour?.tour?.tourPoints ?? []) {
+          if (!startedTour?.tourPointOnStartedTour.find((tourPointOnStartedTour) => tourPointOnStartedTour.tourPoint.id === tourPoint.id)) {
+            isCompleted = false;
+            break;
+          }
+        }
+
+        if (isCompleted) {
+          prisma.startedTour.update({
+            where: {
+              id: startedTourId,
+            },
+            include: {
+              user: true,
+              tour: true,
+              tourPointOnStartedTour: {
+                include: {
+                  tourPoint: true
+                }
+              }
+            },
+            data: {
+              isCompleted: true,
+              dateEnded: new Date()
+            }
+          }).then((startedTour) => {
+            res.json(startedTour);
+          }).catch((error) => {
+            console.log(error);
+            res.status(500).send('Internal server error');
+          });
+        }
+
+      }).catch((error) => {
+        console.log(error)
+        res.status(500).send('Internal server error');
+      });
+    }).catch((error) => {
+      console.log(error);
+      res.status(500).send('Internal server error');
+
+    });
+  }
+});
+
 router.get('/path/name/:continentName/:countryName?/:cityName?', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
   const continentName: string = req.params.continentName;
