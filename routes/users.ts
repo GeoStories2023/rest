@@ -19,7 +19,15 @@ router.get('/:uid?', (req: GeostoriesRequest, res: Response) => {
         include: {
           tour: {
             include: {
-              city: true
+              city: {
+                include: {
+                  country: {
+                    include: {
+                      continent: true
+                    }
+                  }
+                }
+              }
             }
 
           }
