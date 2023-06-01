@@ -15,6 +15,7 @@ import { router as continentsRouter } from './routes/continents';
 import { router as tourPointTypesRouter } from './routes/tourPointTypes';
 import { router as diariesRouter } from './routes/diaries';
 import { router as debugRouter } from './routes/debug';
+import { router as newsRouter } from './routes/news';
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use('/api/v1/continents', continentsRouter);
 app.use('/api/v1/tourpointtypes', tourPointTypesRouter);
 app.use('/api/v1/diaries', diariesRouter);
 app.use('/api/v1/debug', debugRouter);
+app.use('/api/v1/news', newsRouter);
 
 
 
