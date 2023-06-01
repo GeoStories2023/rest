@@ -146,7 +146,14 @@ router.post('/start/', async (req: GeostoriesRequest, res: Response) => {
   }
 
   prisma.startedTour.create({
-    data: newStartedTour
+    data: newStartedTour,
+    include: {
+      tour: {
+        include: {
+          tourPoints: true
+        }
+      }
+    }
   }).then((startedTour) => {
     res.json(startedTour);
   }
