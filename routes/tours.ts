@@ -75,7 +75,11 @@ router.get('/started/:id', (req: GeostoriesRequest, res: Response) => {
       id: id
     },
     include: {
-      tour: true
+      tour: {
+        include: {
+          tourPoints: true
+        }
+      }
     }
   }).then((startedTour) => {
 
