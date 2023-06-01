@@ -52,7 +52,11 @@ router.get('/started/', (req: GeostoriesRequest, res: Response) => {
       userId: req.user?.uid
     },
     include: {
-      tour: true
+      tour: {
+        include: {
+          tourPoints: true
+        }
+      }
     }
   }).then((startedTours) => {
     res.json(startedTours);
