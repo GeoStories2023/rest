@@ -6,7 +6,6 @@ import { GeostoriesRequest } from '../interfaces/iRequest';
 export const router: Router = Router();
 
 router.get('/started/', (req: GeostoriesRequest, res: Response) => {
-  console.log("started route")
   const prisma = getPrismaInstance();
 
 
@@ -29,7 +28,6 @@ router.get('/started/', (req: GeostoriesRequest, res: Response) => {
       }
     }
   }).then((startedTours) => {
-    console.log(startedTours)
     res.json(startedTours);
   }).catch((error) => {
     console.log(error);
@@ -38,7 +36,6 @@ router.get('/started/', (req: GeostoriesRequest, res: Response) => {
 });
 
 router.get('/started/:id', (req: GeostoriesRequest, res: Response) => {
-  console.log("/started/:id")
   const prisma = getPrismaInstance();
   const id = req.params.id;
 

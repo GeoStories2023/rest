@@ -23,27 +23,20 @@ export function authMiddleware(req: GeostoriesRequest, res: Response, next: Next
   const authHeader: string | undefined = req.headers?.authorization;
   const prisma = getPrismaInstance();
 
-  console.log("authMiddleware")
 
   if (authHeader) {
-    console.log("authHeader")
     const token = authHeader.split(' ')[1];
 
     getFirebaseAdmin().auth().verifyIdToken(token).then(async (decodedToken) => {
-      console.log("decodedToken")
       if (decodedToken.email_verified || DEBUG_NO_EMAIL_VERIFICATION) {
-        console.log("decodedToken.email_verified")
 
         const user = await prisma.user.findUnique({ where: { uid: decodedToken.uid } });
         if (user) {
-          console.log("user")
           req.user = user;
-          console.log(req.user)
         } else {
           req.user = await createGeostoriesUser(decodedToken.uid);
         }
         if (req.user) {
-          console.log("next")
           next();
         } else {
           res.status(401).send('Unauthorized');
