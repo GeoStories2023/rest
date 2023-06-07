@@ -242,7 +242,7 @@ router.post('/point/visited/', async (req: GeostoriesRequest, res: Response) => 
               tourPoints: true
             }
           },
-          tourPointOnStartedTour: {
+          tourPoints: {
             include: {
               tourPoint: true
             }
@@ -251,7 +251,7 @@ router.post('/point/visited/', async (req: GeostoriesRequest, res: Response) => 
       }).then((startedTour) => {
         let isCompleted = true;
         for (const tourPoint of startedTour?.tour?.tourPoints ?? []) {
-          if (!startedTour?.tourPointOnStartedTour.find((tourPointOnStartedTour) => tourPointOnStartedTour.tourPoint.id === tourPoint.id)) {
+          if (!startedTour?.tourPoints.find((tourPointOnStartedTour) => tourPointOnStartedTour.tourPoint.id === tourPoint.id)) {
             isCompleted = false;
             break;
           }
@@ -265,7 +265,7 @@ router.post('/point/visited/', async (req: GeostoriesRequest, res: Response) => 
             include: {
               user: true,
               tour: true,
-              tourPointOnStartedTour: {
+              tourPoints: {
                 include: {
                   tourPoint: true
                 }
