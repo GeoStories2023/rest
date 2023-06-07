@@ -77,6 +77,7 @@ router.get('/started/', (req: GeostoriesRequest, res: Response) => {
 });
 
 router.get('/started/:id', (req: GeostoriesRequest, res: Response) => {
+  console.log("/started/:id")
   const prisma = getPrismaInstance();
   const id = req.params.id;
 
