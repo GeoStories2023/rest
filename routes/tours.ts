@@ -52,6 +52,11 @@ router.get('/started/', (req: GeostoriesRequest, res: Response) => {
       userId: req.user?.uid
     },
     include: {
+      visitedTourPoints: {
+        include: {
+          tourPoint: true
+        }
+      },
       tour: {
         include: {
           tourPoints: true
@@ -75,6 +80,11 @@ router.get('/started/:id', (req: GeostoriesRequest, res: Response) => {
       id: id
     },
     include: {
+      visitedTourPoints: {
+        include: {
+          tourPoint: true
+        }
+      },
       tour: {
         include: {
           tourPoints: true
@@ -103,7 +113,16 @@ router.delete('/started/:id', (req: GeostoriesRequest, res: Response) => {
       id: id
     },
     include: {
-      tour: true
+      visitedTourPoints: {
+        include: {
+          tourPoint: true
+        }
+      },
+      tour: {
+        include: {
+          tourPoints: true
+        }
+      }
     }
   }).then((startedTour) => {
 
@@ -242,7 +261,7 @@ router.post('/point/visited/', async (req: GeostoriesRequest, res: Response) => 
               tourPoints: true
             }
           },
-          tourPoints: {
+          visitedTourPoints: {
             include: {
               tourPoint: true
             }
@@ -251,7 +270,7 @@ router.post('/point/visited/', async (req: GeostoriesRequest, res: Response) => 
       }).then((startedTour) => {
         let isCompleted = true;
         for (const tourPoint of startedTour?.tour?.tourPoints ?? []) {
-          if (!startedTour?.tourPoints.find((tourPointOnStartedTour) => tourPointOnStartedTour.tourPoint.id === tourPoint.id)) {
+          if (!startedTour?.visitedTourPoints.find((tourPointOnStartedTour) => tourPointOnStartedTour.tourPoint.id === tourPoint.id)) {
             isCompleted = false;
             break;
           }
@@ -265,7 +284,7 @@ router.post('/point/visited/', async (req: GeostoriesRequest, res: Response) => 
             include: {
               user: true,
               tour: true,
-              tourPoints: {
+              visitedTourPoints: {
                 include: {
                   tourPoint: true
                 }
