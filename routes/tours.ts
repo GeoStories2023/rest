@@ -5,46 +5,6 @@ import { GeostoriesRequest } from '../interfaces/iRequest';
 
 export const router: Router = Router();
 
-router.get('/', (req: GeostoriesRequest, res: Response) => {
-  const prisma = getPrismaInstance();
-
-  prisma.tour.findMany({
-    include: {
-      tourPoints: true,
-      city: true
-
-    }
-  }).then((tours) => {
-    res.json(tours);
-  }).catch((error) => {
-    console.log(error);
-    res.status(500).send('Internal server error');
-  });
-});
-
-
-router.get('/:id', (req: GeostoriesRequest, res: Response) => {
-  console.log("Wenn das der Fehler ist, dann bin ich ein Idiot")
-  const prisma = getPrismaInstance();
-  const id = req.params.id;
-
-  prisma.tour.findUnique({
-    where: {
-      id: id
-    },
-    include: {
-      tourPoints: true,
-      city: true
-    }
-
-  }).then((tour) => {
-    res.json(tour);
-  }).catch((error) => {
-    console.log(error);
-    res.status(500).send('Internal server error');
-  });
-});
-
 router.get('/started/', (req: GeostoriesRequest, res: Response) => {
   console.log("started route")
   const prisma = getPrismaInstance();
@@ -471,5 +431,44 @@ router.put('/point/:id', (req: GeostoriesRequest, res: Response) => {
     console.log(error);
     res.status(500).send('Internal server error');
   });
-}
-);
+});
+
+router.get('/', (req: GeostoriesRequest, res: Response) => {
+  const prisma = getPrismaInstance();
+
+  prisma.tour.findMany({
+    include: {
+      tourPoints: true,
+      city: true
+
+    }
+  }).then((tours) => {
+    res.json(tours);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
+
+
+router.get('/:id', (req: GeostoriesRequest, res: Response) => {
+  console.log("Wenn das der Fehler ist, dann bin ich ein Idiot")
+  const prisma = getPrismaInstance();
+  const id = req.params.id;
+
+  prisma.tour.findUnique({
+    where: {
+      id: id
+    },
+    include: {
+      tourPoints: true,
+      city: true
+    }
+
+  }).then((tour) => {
+    res.json(tour);
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send('Internal server error');
+  });
+});
