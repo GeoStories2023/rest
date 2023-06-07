@@ -47,6 +47,9 @@ router.get('/:id', (req: GeostoriesRequest, res: Response) => {
 router.get('/started/', (req: GeostoriesRequest, res: Response) => {
   const prisma = getPrismaInstance();
 
+
+  console.log(req.user?.uid)
+
   prisma.startedTour.findMany({
     where: {
       userId: req.user?.uid
@@ -64,6 +67,7 @@ router.get('/started/', (req: GeostoriesRequest, res: Response) => {
       }
     }
   }).then((startedTours) => {
+    console.log(startedTours)
     res.json(startedTours);
   }).catch((error) => {
     console.log(error);
