@@ -37,8 +37,8 @@ export function authMiddleware(req: GeostoriesRequest, res: Response, next: Next
         const user = await prisma.user.findUnique({ where: { uid: decodedToken.uid } });
         if (user) {
           console.log("user")
-          console.log(req.user)
           req.user = user;
+          console.log(req.user)
         } else {
           req.user = await createGeostoriesUser(decodedToken.uid);
         }
