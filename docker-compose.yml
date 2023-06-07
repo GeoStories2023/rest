@@ -10,6 +10,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    depends_on: 
+      - postgres
     restart: always
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/geostories
