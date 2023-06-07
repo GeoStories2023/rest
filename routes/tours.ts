@@ -24,6 +24,7 @@ router.get('/', (req: GeostoriesRequest, res: Response) => {
 
 
 router.get('/:id', (req: GeostoriesRequest, res: Response) => {
+  console.log("Wenn das der Fehler ist, dann bin ich ein Idiot")
   const prisma = getPrismaInstance();
   const id = req.params.id;
 
