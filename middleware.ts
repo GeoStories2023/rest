@@ -23,6 +23,8 @@ export function authMiddleware(req: GeostoriesRequest, res: Response, next: Next
   const authHeader: string | undefined = req.headers?.authorization;
   const prisma = getPrismaInstance();
 
+  console.log("authMiddleware")
+
   if (authHeader) {
     const token = authHeader.split(' ')[1];
 
