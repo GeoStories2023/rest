@@ -324,7 +324,15 @@ router.get('/path/name/:continentName/:countryName?/:cityName?', (req: Geostorie
     },
     include: {
       tourPoints: true,
-      city: true
+      city: {
+        include: {
+          country: {
+            include: {
+              continent: true
+            }
+          }
+        }
+      }
     }
   }).then((tours) => {
     res.json(tours);
